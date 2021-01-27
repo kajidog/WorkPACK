@@ -20,8 +20,8 @@ const windowVies: { [id: string]: BrowserView } = {};
 app.on("ready", async () => {
   await prepareNext("./renderer");
   windows[MAIN_WINDOW_ID] = new BrowserWindow({
-    width: 1000,
-    height: 800,
+    width: 1300,
+    height: 820,
     webPreferences: {
       nodeIntegration: true,
       preload: join(__dirname, "preload.js"),
@@ -185,6 +185,9 @@ const newAuth = (url: string) => {
 
   windows[AUTH_WINDOW_ID] = subWindow;
   subWindow.loadURL(url);
+
+
+
   windows[AUTH_WINDOW_ID].on("page-title-updated", function() {
     const newTitle = windows[AUTH_WINDOW_ID].webContents.getTitle();
     const url = windows[AUTH_WINDOW_ID].webContents.getURL()
@@ -192,7 +195,27 @@ const newAuth = (url: string) => {
     console.log("page-title-updated: title=" + newTitle)
     console.log("url",  url);
     console.log("host", host);
-    if(host === "localhost:8000" || newTitle === "Approved Clicked"){
+    if(host === "localhost:8000" ){
+      const qs_a = qs.parse(url)
+      if(qs_a["http://localhost:8000/?code"]){
+        console.log("delete", qs_a["http://localhost:8000/?code"]);
+        subWindow.close()
+        const code = qs_a["http://localhost:8000/?code"]
+        if (typeof code === "string") {
+          setNewToken(code)
+            .then(async() => {
+              const auth = await getAuth();
+              const user = await getProfile(auth)
+              console.log("user", user);
+              windows[MAIN_WINDOW_ID].webContents.send("update_user", { user, auth})
+              
+            })
+            .catch((err) => {
+              console.log("failed", "save_token", err);
+            });
+        }
+        
+      }
       console.log("qs", qs.parse(url));
     }
 });
