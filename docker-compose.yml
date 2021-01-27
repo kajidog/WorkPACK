@@ -1,0 +1,15 @@
+version: "3"
+services:
+  desktop:
+      container_name: desktop 
+      build: ./docker/desktop
+      tty: true
+      privileged: true
+      environment:
+          - DISPLAY=host.docker.internal:0
+      volumes:
+          - ./src/desktop:/home/docker/app
+
+volumes:
+  node_modules:
+    driver: "local"

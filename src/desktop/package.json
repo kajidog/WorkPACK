@@ -1,0 +1,81 @@
+{
+  "name": "with-electron-typescript",
+  "version": "1.0.0",
+  "license": "MIT",
+  "main": "main/index.js",
+  "productName": "WorkPACK",
+  "scripts": {
+    "clean": "rimraf dist main renderer/out renderer/.next",
+    "dev": "npm run build-electron && electron .",
+    "build-renderer": "next build renderer && next export renderer",
+    "build-electron": "tsc -p electron-src",
+    "build": "npm run build-renderer && npm run build-electron",
+    "pack-app": "npm run build && electron-builder --dir",
+    "dist": "npm run build && electron-builder",
+    "type-check": "tsc",
+    "fmt": "prettier --write renderer/components/Classroom/**/*.{js,ts,tsx}",
+    "rebuild": "electron-rebuild -f -w sqlite3"
+  },
+  "dependencies": {
+    "@material-ui/core": "^4.11.2",
+    "@material-ui/icons": "^4.11.2",
+    "@reduxjs/toolkit": "^1.5.0",
+    "@types/electron-prompt": "^1.6.0",
+    "@types/electron-store": "^3.2.0",
+    "@types/qs": "^6.9.5",
+    "@types/react-dropzone": "^5.1.0",
+    "@types/react-redux": "^7.1.15",
+    "@types/redux-logger": "^3.0.8",
+    "@types/styled-components": "^5.1.5",
+    "electron-is-dev": "^1.1.0",
+    "electron-next": "^3.1.5",
+    "electron-prompt": "^1.6.1",
+    "electron-store": "^7.0.0",
+    "fs": "^0.0.1-security",
+    "google-auth-library": "^6.1.4",
+    "googleapis": "^67.0.0",
+    "node-gyp": "^7.1.2",
+    "prettier": "^2.2.1",
+    "qs": "^6.9.6",
+    "react": "^17.0.0",
+    "react-dom": "^17.0.0",
+    "react-dropzone": "^11.2.4",
+    "react-electron-browser-view": "^3.0.0",
+    "react-redux": "^7.2.2",
+    "redux": "^4.0.5",
+    "redux-logger": "^3.0.6",
+    "sequelize": "^6.4.0",
+    "styled-components": "^5.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.6",
+    "@types/react": "^16.9.9",
+    "@types/react-dom": "^16.9.9",
+    "babel-plugin-styled-components": "^1.12.0",
+    "electron": "^10.1.5",
+    "electron-builder": "^22.9.1",
+    "electron-rebuild": "^2.3.4",
+    "next": "latest",
+    "rimraf": "^3.0.0",
+    "typescript": "^4.0.5"
+  },
+  "build": {
+    "asar": true,
+    "files": [
+      "main",
+      "renderer/out"
+    ],
+    "mac": {
+      "target": "dmg",
+      "icon": "logo.png"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "logo.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  }
+}
