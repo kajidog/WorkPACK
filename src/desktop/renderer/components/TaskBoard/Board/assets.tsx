@@ -176,3 +176,11 @@ export const getCardSize = (
   }
   return { width, height }
 }
+
+export const getCardPosition = (next: Position, target: ResizeTarget & { orgin: Position }) => {
+  let x = target.orgin.x + (next.x - target.position.x)
+  let y = target.orgin.y + (next.y - target.position.y)
+  x < 0 && (x = 0)
+  y < 0 && (y = 0)
+  return { x, y }
+}

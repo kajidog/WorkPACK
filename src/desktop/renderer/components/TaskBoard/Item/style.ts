@@ -75,7 +75,7 @@ export const Item = styled.div<ItemProps>`
         }
     }
     ${props.hide && css`
-        height: ${HeaderHeight};
+        height: 3rem;
         .item_body, .resize_button{ display: none; }
         .wrap_item_header > div{
             border-radius: .5rem !important;
