@@ -14,18 +14,18 @@ export type Props = {
 
 const Component: React.FC<Props> = (props) => {
   const router = useRouter();
-  const [loading, setLoading] = React.useState<boolean|null>(null);
+  const [loading, setLoading] = React.useState<boolean | null>(null);
   const [works, setWorks] = React.useState<Work[]>([]);
   const { auth } = useUserState();
   const [auth1, setAuth1] = React.useState(null);
   React.useEffect(() => {
-    function get(_:any, msg: any) {
-      if (msg){
-         setWorks(msg);
-          if(!msg.length){
-            props.onClose(props.courseId)
-          }
+    function get(_: any, msg: any) {
+      if (msg) {
+        setWorks(msg);
+        if (!msg.length) {
+          props.onClose(props.courseId)
         }
+      }
       setLoading(false);
     }
     function bad_get() {
@@ -45,15 +45,15 @@ const Component: React.FC<Props> = (props) => {
       setAuth1(auth);
     }
   }, [props.courseId, auth]);
-  React.useEffect(()=>{
-    if(loading !== null && !works.length){
+  React.useEffect(() => {
+    if (loading !== null && !works.length) {
       props.onClose(props.courseId)
     }
   }, [works])
   const liadingDom = (
     <div className="loading_work">
       <div>
-      <Coffee1 size={40} />     
+        <Coffee1 size={40} />
 
         loading...
         </div>
@@ -64,7 +64,7 @@ const Component: React.FC<Props> = (props) => {
     <div className="emp_work">
       <div>
         <Coffee size={200} />
-        <br/>
+        <br />
         <div>課題はありません</div>
       </div>
     </div>

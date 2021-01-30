@@ -17,7 +17,7 @@ const IndexPage = () => {
     return <div></div>;
   }
   const dispatch = useDispatch();
-  const handleChange= (next: boolean) => () => {
+  const handleChange = (next: boolean) => () => {
     setToggle(next)
   }
   React.useEffect(() => {
@@ -26,10 +26,10 @@ const IndexPage = () => {
       if (!msg) {
         return;
       }
-      if(msg.auth){
-        dispatch(clice.actions.setAuth(msg.auth));     
+      if (msg.auth) {
+        dispatch(clice.actions.setAuth(msg.auth));
       }
-      if(msg.user){
+      if (msg.user) {
         dispatch(clice.actions.setUser(msg.user));
       }
     }
@@ -41,10 +41,10 @@ const IndexPage = () => {
 
   const [add, setAdd] = React.useState(false)
   const Free = (
-   <div className="free_wrap">
-   <Bord workId="me" />
-   <Add workId="me" toggle={add} onChange={setAdd} />
-   </div>
+    <div className="free_wrap">
+      <Bord workId="me" />
+      <Add workId="me" toggle={add} onChange={setAdd} />
+    </div>
   )
 
   const selectButton = (
@@ -57,14 +57,14 @@ const IndexPage = () => {
     <Layout>
       <Style toggle={toggle}>
         {toggle && Free}
-        {!toggle&& <Board />}
+        {!toggle && <Board />}
         {selectButton}
       </Style>
     </Layout>
   );
 };
 
-const Style = styled.div<{toggle: boolean}>`
+const Style = styled.div<{ toggle: boolean }>`
 ${props => css`
 .free_wrap{
   position: fixed;

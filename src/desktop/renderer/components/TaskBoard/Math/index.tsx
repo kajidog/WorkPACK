@@ -45,7 +45,7 @@ const ItemStyle = styled.div<Position & Pick<Props, "focus">>`
     `}
     &:hover {
       ${props.focus === "true" &&
-      css`
+    css`
         border: 2px solid #000;
       `}
     }

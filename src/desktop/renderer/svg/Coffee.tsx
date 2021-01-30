@@ -1,9 +1,9 @@
 import React from 'react'
 
 type Props = {
-    size: number
+  size: number
 }
-const Component:React.FC<Props> = ({size}) => {
+const Component: React.FC<Props> = ({ size }) => {
   return (
     <svg
       id="a525f49c-389c-445f-ad2c-d5c197cff10c"

@@ -4,34 +4,34 @@ import { flexCenter } from "../../../../styles"
 import { stopPropagation } from "../../../../utils"
 
 type Props = {
-onSubmit: (wrod: string) => void
-onClose: () => void
+    onSubmit: (wrod: string) => void
+    onClose: () => void
 }
 
 const Component: React.FC<Props> = (props) => {
     const [word, setWord] = React.useState("")
-    const handleSubmit = (e:any) => {
+    const handleSubmit = (e: any) => {
         e.preventDefault();
-        if(!word.length){
+        if (!word.length) {
             props.onClose();
         }
         props.onSubmit(word)
     }
-    const handleChange= (e:any) => {
+    const handleChange = (e: any) => {
         setWord(e.target.value)
     }
-    return <Style  onClick={props.onClose}>
+    return <Style onClick={props.onClose}>
         <div onClick={stopPropagation} >
             <form onSubmit={handleSubmit} >
-            <p> URLを入力してください</p>
-            <input autoFocus  type="text" value={word} onChange={handleChange} />
-            <button type="submit">OK</button>
+                <p> URLを入力してください</p>
+                <input autoFocus type="text" value={word} onChange={handleChange} />
+                <button type="submit">OK</button>
             </form>
         </div>
     </Style>
 }
 
-const Style  = styled.div`
+const Style = styled.div`
 position: fixed;
 top: 0;
 left: 0;

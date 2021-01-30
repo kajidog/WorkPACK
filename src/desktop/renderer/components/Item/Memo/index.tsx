@@ -1,5 +1,5 @@
 import React from "react"
-import {Style} from "./style"
+import { Style } from "./style"
 export type Props = {
     onChange: (word: string) => void;
     word: string
@@ -11,7 +11,6 @@ const Component: React.FC<Props> = (props) => {
     }
     return (
         <Style onChange={handleChange} value={props.word} >
-
         </Style>
     )
 }

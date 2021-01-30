@@ -27,7 +27,7 @@ export function writeFile(path: string, data: string) {
   });
 }
 
-const REDIRECT_URL =  "http://localhost:8000/"
+const REDIRECT_URL =  "urn:ietf:wg:oauth:2.0:oob"
  
 
 const SCOPES = [

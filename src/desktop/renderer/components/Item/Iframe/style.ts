@@ -14,5 +14,4 @@ export const Style = styled.div`
     white-space: pre-wrap;
     word-break:break-all;
     overflow-y: scroll;
-
 `

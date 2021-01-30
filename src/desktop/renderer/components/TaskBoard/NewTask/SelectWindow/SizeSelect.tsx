@@ -2,17 +2,17 @@ import { SizeSelect } from "./style";
 import React from "react";
 import { Size } from "../../../../store/tasks";
 
-export type AddSize =  "2:2" | "6:3"| "3:4";
-const Sizes: AddSize[] = ["2:2","3:4","6:3"];
+export type AddSize = "2:2" | "6:3" | "3:4";
+const Sizes: AddSize[] = ["2:2", "3:4", "6:3"];
 export const getSize = (size: AddSize): Size => {
   switch (size) {
     case "2:2":
       return { width: 2, height: 2 };
-      case "3:4":
-        return { width: 3, height: 4 };
-        case "6:3":
-          return { width: 6, height: 3 };
-          default:
+    case "3:4":
+      return { width: 3, height: 4 };
+    case "6:3":
+      return { width: 6, height: 3 };
+    default:
       return { width: 2, height: 2 };
   }
 };

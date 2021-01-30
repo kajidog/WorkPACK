@@ -8,7 +8,7 @@ export const useCounterState = () => {
 };
 
 export const useTask = (workId: string) => {
-  return useSelector((state: {counter: TasksState}) => ({
+  return useSelector((state: { counter: TasksState }) => ({
     tasks: state.counter.tasks[workId] || []
   }))
 }

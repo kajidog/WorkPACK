@@ -1,6 +1,6 @@
 import React from "react"
 import { Announce } from "../../../store/classroom"
-import {Style} from "./style"
+import { Style } from "./style"
 export type Props = {
     announce: Announce
 }

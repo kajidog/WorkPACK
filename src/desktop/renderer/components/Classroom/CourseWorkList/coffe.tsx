@@ -2,7 +2,7 @@
 // コーヒーのアイコンを表示
 
 import React from "react"
-import styled, {keyframes} from "styled-components"
+import styled, { keyframes } from "styled-components"
 type Props = {
   size?: number // コーヒーのサイズ
 }
@@ -27,8 +27,8 @@ const steamLarge = keyframes`
       opacity: 0;
     }
     `
-  
-  const steamSmall = keyframes`
+
+const steamSmall = keyframes`
 
     10% {
       stroke-dashoffset: 9;
@@ -43,7 +43,7 @@ const steamLarge = keyframes`
       opacity: 0;
     }
     `
-  
+
 
 // ______________________________________________________
 //

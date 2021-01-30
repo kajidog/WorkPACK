@@ -13,10 +13,10 @@ const Component: React.FC<Props> = () => {
 
   const router = useRouter(); // ルーター
   const { user, loading, login } = useUserState();
-  const disptch = useDispatch();
+  const dispatch = useDispatch();
   // ログインチェック
   const onClickWithIpcSync = () => {
-    disptch(userSlice.actions.setLoading({ loading: true }));
+    dispatch(userSlice.actions.setLoading({ loading: true }));
     const ipcRenderer = electron ? electron.ipcRenderer || false : false;
     if (!ipcRenderer) {
       return;
@@ -36,16 +36,16 @@ const Component: React.FC<Props> = () => {
           message.userInfo.picture &&
             (next["picture"] = message.userInfo.picture);
           message.userInfo.email && (next["email"] = message.userInfo.email);
-          disptch(userSlice.actions.setUser(next));
-          disptch(userSlice.actions.setAuth(message.auth));
+          dispatch(userSlice.actions.setUser(next));
+          dispatch(userSlice.actions.setAuth(message.auth));
         }
     }
-    disptch(userSlice.actions.setLoading({ loading: false }));
+    dispatch(userSlice.actions.setLoading({ loading: false }));
   };
 
   // トークン取得
   const changeUser = () => {
-    disptch(userSlice.actions.setLoading({ loading: true }));
+    dispatch(userSlice.actions.setLoading({ loading: true }));
     const ipcRenderer = electron ? electron.ipcRenderer || false : false;
     if (!ipcRenderer) {
       return;
@@ -62,7 +62,7 @@ const Component: React.FC<Props> = () => {
         break;
       default:
     }
-    disptch(userSlice.actions.setLoading({ loading: false }));
+    dispatch(userSlice.actions.setLoading({ loading: false }));
   };
 
   React.useEffect(() => {
@@ -125,10 +125,10 @@ const Component: React.FC<Props> = () => {
       {loading === null
         ? "building..."
         : loading
-        ? Authentication
-        : !login
-        ? filedLoginDom
-        : successDom}
+          ? Authentication
+          : !login
+            ? filedLoginDom
+            : successDom}
     </Style>
   );
 };

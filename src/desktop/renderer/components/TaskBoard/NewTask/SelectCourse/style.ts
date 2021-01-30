@@ -1,4 +1,4 @@
-import styled, {} from "styled-components"
+import styled, { } from "styled-components"
 import { flexCenter } from "../../../../styles"
 
 const Style = styled.div`

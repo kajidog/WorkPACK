@@ -1,13 +1,13 @@
-import {WIDTH as ITEM_WIDTH, HEIGHT as ITEM_HEIGHT} from "../Item/style"
+import { WIDTH as ITEM_WIDTH, HEIGHT as ITEM_HEIGHT } from "../Item/style"
 
-import styled, {css} from 'styled-components'
+import styled, { css } from 'styled-components'
 
 // ボードスタイルの引数
 type BordProps = {
-    width: number;
-    height:  number;
-    resize?: boolean;
-  }
+  width: number;
+  height: number;
+  resize?: boolean;
+}
 
 // ボードStyled
 export const Board = styled.div<BordProps>`

@@ -7,20 +7,20 @@ export const getProfile = (oauth2Client: any) => {
     version: "v2",
   });
 
-  return new Promise((resolve, reject)=>{
+  return new Promise((resolve, reject) => {
     oauth2.userinfo.get(function (err, res) {
-        if (err) {
-            reject(err);
-            return
-        } 
-        if(!res){
-            reject("not found res")
-            return
-        }
-        console.log(res.data);
-        resolve(res.data)
-        setUserInfo(res.data)
-        
-    });      
-    })
+      if (err) {
+        reject(err);
+        return
+      }
+      if (!res) {
+        reject("not found res")
+        return
+      }
+      console.log(res.data);
+      resolve(res.data)
+      setUserInfo(res.data)
+
+    });
+  })
 };

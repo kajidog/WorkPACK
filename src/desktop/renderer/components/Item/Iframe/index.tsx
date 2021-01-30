@@ -1,5 +1,5 @@
 import React from "react"
-import {Style} from "./style"
+import { Style } from "./style"
 export type Props = {
     url: string
 }

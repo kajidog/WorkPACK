@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import {Props} from '.'
+import { Props } from '.'
 import { flexCenter } from '../../../../styles'
 
 export const mainStyle = (component: React.FC<Props>) => styled(component)`
@@ -68,7 +68,7 @@ li{
 
 `
 
-export default  mainStyle
+export default mainStyle
 
 
 export const Histry = styled.div`

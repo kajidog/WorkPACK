@@ -1,5 +1,5 @@
 import React from "react";
-import { Task, Position, Size,  } from "../../../store/tasks";
+import { Task, Position, Size, } from "../../../store/tasks";
 import Item, { Props } from "../Item";
 import MathComponent, { Props as MathProps1 } from "../Math";
 import Memo from "../../Item/Memo"
@@ -12,42 +12,44 @@ const MIN_MATH_HEIGHT = 10;
 export const mapInfo = (
   information: Task[],
   itemProps: Omit<Props, "key" | "id" | "position" | "size" | "options">,
-  onChange: (task:Task[])=>void
-) =>{
+  onChange: (task: Task[]) => void
+) => {
 
   const changeMemo = (id: string) => (word: string) => {
-    const next:Task[] = []
+    const next: Task[] = []
     information.forEach((item) => {
-      if(item.id === id && item.props.type === "memo"){
-        next.push({...item, props: {...item.props, word}})
-      }else next.push(item)
+      if (item.id === id && item.props.type === "memo") {
+        next.push({ ...item, props: { ...item.props, word } })
+      } else next.push(item)
     })
     onChange(next)
   }
- return information.map((info) =>{
-  const Child = () => {
-    if(!info.props){
-       return <></>
+  return information.map((info) => {
+    const Child = () => {
+      if (!info.props) {
+        return <></>
+      }
+      switch (info.props.type) {
+        case "memo":
+          return <Memo onChange={changeMemo(info.id)} word={info.props.word} />
+        case "announce":
+          return <Announce announce={info.props.announce} />
+        case "iframe":
+          return <Iframe url={info.props.url} />
+      }
     }
-    switch(info.props.type){
-      case "memo":
-        return <Memo onChange={changeMemo(info.id)} word={info.props.word} />
-      case "announce":
-        return <Announce announce={info.props.announce} />
-      case "iframe":
-        return <Iframe url={info.props.url} />
-    }
-  }  
-  return(
-    <Item
-      {...itemProps}
-      key={"info_item_" + info.id}
-      id={info.id}
-      position={info.position}
-      size={info.size}
-      options={info.options}
-    >{Child()}</Item>
-  )})};
+    return (
+      <Item
+        {...itemProps}
+        key={"info_item_" + info.id}
+        id={info.id}
+        position={info.position}
+        size={info.size}
+        options={info.options}
+      >{Child()}</Item>
+    )
+  })
+};
 
 export const setInfoData = (id: string, position: Position, info: Task[]) => {
   let last: Task | undefined;

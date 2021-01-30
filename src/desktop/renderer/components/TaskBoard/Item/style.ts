@@ -1,15 +1,15 @@
-import styled, {css} from "styled-components"
-import {Props} from "."
-import {Props as GhostProps} from "./Ghost"
+import styled, { css } from "styled-components"
+import { Props } from "."
+import { Props as GhostProps } from "./Ghost"
 import { flexCenter } from "../../../styles";
 
 export const WIDTH = 100
 export const HEIGHT = 100
 const HeaderHeight = "1.75rem"
 
-export type ItemProps =  Pick<Props, "size"| "position"> & {hide: boolean}
+export type ItemProps = Pick<Props, "size" | "position"> & { hide: boolean }
 
-export const Item =  styled.div<ItemProps>`
+export const Item = styled.div<ItemProps>`
     transition: .4s;
     overflow-x: hidden;
     button{

@@ -33,7 +33,7 @@ export type Announce = {
   courseId: string;
   id: string;
   text: string;
-  materials:any[]
+  materials: any[]
   alternateLink: string;
   creationTime: string;
   updateTime: string;
@@ -63,7 +63,7 @@ export type ClassroomState = {
 
 export const initialState: ClassroomState = {
   curses: [],
-  announces:{},
+  announces: {},
   loading: {
     state: null,
     message: "",
@@ -96,7 +96,7 @@ const slice = createSlice({
     setAnnnounce: (state, action: PayloadAction<{ announce: Announce }>) => {
       return {
         ...state,
-        announces: {...state.announces, [action.payload.announce.id]:action.payload.announce},
+        announces: { ...state.announces, [action.payload.announce.id]: action.payload.announce },
       };
     },
   },

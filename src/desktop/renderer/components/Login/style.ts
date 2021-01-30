@@ -4,7 +4,7 @@ export const Item = styled.div<{ changeToggle: boolean }>`
   ${(props) => css`
     .user_info {
       ${props.changeToggle &&
-      css`
+    css`
         transform: none;
       `}
       position: relative;

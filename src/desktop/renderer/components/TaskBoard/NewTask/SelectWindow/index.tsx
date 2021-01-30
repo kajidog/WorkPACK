@@ -4,7 +4,7 @@ import History from "./History";
 import SizeSelect, { AddSize, getSize } from "./SizeSelect";
 import { stopPropagation } from "../../../../utils";
 import counterSlice, { Task } from "../../../../store/tasks";
-import {useTask} from "../../../../store/tasks/selector";
+import { useTask } from "../../../../store/tasks/selector";
 import SelectCourse from "../SelectCourse";
 import SelectWork from "../SelectWork";
 import { useDispatch } from "react-redux";
@@ -26,15 +26,15 @@ type State = {
 
 const getId = (tasks: Task[]) => {
   const index = tasks.length - 1
-  if(tasks[index]){
-    return tasks[index].id+"1"
+  if (tasks[index]) {
+    return tasks[index].id + "1"
   }
   return "1"
 }
 
 const Component: React.FC<Props> = (props) => {
   const dispatch = useDispatch();
-  const {tasks} = useTask(props.workId)
+  const { tasks } = useTask(props.workId)
   const [prompt, setPrompt] = React.useState(false)
 
   const [state, setState] = React.useState<State>({
@@ -62,13 +62,13 @@ const Component: React.FC<Props> = (props) => {
 
   const handleChangeWindow = (
     display: "corse" | "window" | "courses" | "material",
-    courseId: string = state.courseId, 
+    courseId: string = state.courseId,
     type: boolean = state.isAnnounce
   ) => {
-    setState({ ...state, display, courseId, isAnnounce:type });
+    setState({ ...state, display, courseId, isAnnounce: type });
   };
 
-  const addTask = (id: string) => async() => {
+  const addTask = (id: string) => async () => {
     switch (id) {
       case "クラスルームアナウンス":
         handleChangeWindow("courses");
@@ -82,20 +82,21 @@ const Component: React.FC<Props> = (props) => {
       case "メモ":
         dispatch(
           counterSlice.actions.addTask({
-            workId:props.workId,
-            task:{
-            id: getId(tasks) ,
-            size: getSize(state.size),
-            position: { x: 0, y: 0 },
-            options: {
-              title: "メモ",
-              hide: false,
-            },
-            props:{
-              type: "memo",
-              word: ""
+            workId: props.workId,
+            task: {
+              id: getId(tasks),
+              size: getSize(state.size),
+              position: { x: 0, y: 0 },
+              options: {
+                title: "メモ",
+                hide: false,
+              },
+              props: {
+                type: "memo",
+                word: ""
+              }
             }
-          }})
+          })
         )
         doClose();
         break;
@@ -104,15 +105,15 @@ const Component: React.FC<Props> = (props) => {
   };
 
   const changeHistory = () => {
-    switch(state.display){
+    switch (state.display) {
       case "courses":
-        setState({...state, display: "window"})
-        return      
+        setState({ ...state, display: "window" })
+        return
       case "corse":
-        setState({...state, display: "courses"})    
-        return    
+        setState({ ...state, display: "courses" })
+        return
       case "material":
-        setState({...state, display: "window"})        
+        setState({ ...state, display: "window" })
 
     }
   }
@@ -125,20 +126,21 @@ const Component: React.FC<Props> = (props) => {
   const addAnnounce = (announce: Announce) => {
     dispatch(
       counterSlice.actions.addTask({
-        workId:props.workId,
-        task:{
-        id: getId(tasks) ,
-        size: getSize(state.size),
-        position: { x: 0, y: 0 },
-        options: {
-          title: "アナウンス",
-          hide: false,
-        },
-        props:{
-          type: "announce",
-          announce
+        workId: props.workId,
+        task: {
+          id: getId(tasks),
+          size: getSize(state.size),
+          position: { x: 0, y: 0 },
+          options: {
+            title: "アナウンス",
+            hide: false,
+          },
+          props: {
+            type: "announce",
+            announce
+          }
         }
-      }})
+      })
     )
     doClose();
   }
@@ -156,12 +158,12 @@ const Component: React.FC<Props> = (props) => {
       case "courses":
         return <SelectCourse onChange={(courseId) => {
           handleChangeWindow("corse", courseId)
-        }} 
-        onSubmit={() => {
-          createTask()
-        }} />;
-      case "corse": 
-        return <SelectWork isAnnunce={state.isAnnounce} courseId={state.courseId} onSubmit={ addAnnounce}  />
+        }}
+          onSubmit={() => {
+            createTask()
+          }} />;
+      case "corse":
+        return <SelectWork isAnnunce={state.isAnnounce} courseId={state.courseId} onSubmit={addAnnounce} />
       default:
         return <ul>{mapMenue}</ul>;
     }
@@ -169,20 +171,21 @@ const Component: React.FC<Props> = (props) => {
   const addIframe = (url: string) => {
     dispatch(
       counterSlice.actions.addTask({
-        workId:props.workId,
-        task:{
-        id: getId(tasks) ,
-        size: getSize(state.size),
-        position: { x: 0, y: 0 },
-        options: {
-          title: url,
-          hide: false,
-        },
-        props:{
-          type: "iframe",
-          url
+        workId: props.workId,
+        task: {
+          id: getId(tasks),
+          size: getSize(state.size),
+          position: { x: 0, y: 0 },
+          options: {
+            title: url,
+            hide: false,
+          },
+          props: {
+            type: "iframe",
+            url
+          }
         }
-      }})
+      })
     )
 
     doClose();

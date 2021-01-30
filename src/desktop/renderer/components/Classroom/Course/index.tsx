@@ -10,12 +10,12 @@ export type Props = {
 const Component: React.FC<Props> = (props) => {
   const [toggle, setToggle] = React.useState(true)
   const handleChange = () => {
-    setToggle (false)
+    setToggle(false)
   }
 
-  React.useEffect(()=>{
+  React.useEffect(() => {
     setToggle(true)
-  },[ props.course])
+  }, [props.course])
   return (
     <Style toggle={toggle}>
       <ul>

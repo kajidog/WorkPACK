@@ -16,7 +16,7 @@ const Component: React.FC<Props> = (props) => {
 
 
   const handleUndoClick = () => {
-   onUndo && onUndo();
+    onUndo && onUndo();
   };
   return (
     <Histry>

@@ -6,7 +6,7 @@ import Ghost from "../Item/Ghost";
 import counterSlice from "../../../store/tasks";
 import { useTask } from "../../../store/tasks/selector";
 import { useDispatch } from "react-redux";
-import { Task, Position, Size,  } from "../../../store/tasks";
+import { Task, Position, Size, } from "../../../store/tasks";
 type Props = {
   className?: string;
   workId: string;
@@ -24,7 +24,7 @@ const Component: React.FC<Props> = (props) => {
   const info = useTask(props.workId).tasks;
   const dispatch = useDispatch();
   const setInfo = (next: Task[]) => {
-    dispatch(counterSlice.actions.setTasks({workId: props.workId, tasks: next}));
+    dispatch(counterSlice.actions.setTasks({ workId: props.workId, tasks: next }));
   };
   const [moved, setMoved] = React.useState(false); // 移動中か？
   const [target, setTarget] = React.useState<null | string>(null); // 移動中のターゲットID

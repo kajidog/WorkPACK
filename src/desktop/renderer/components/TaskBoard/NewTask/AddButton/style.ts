@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { flexCenter } from '../../../../styles'
-export const mainStyle =  styled.div`
+export const mainStyle = styled.div`
     position: fixed;
     top: 125px;
     right: 0;
@@ -31,4 +31,4 @@ export const mainStyle =  styled.div`
     }
 `
 
-export default  mainStyle
+export default mainStyle

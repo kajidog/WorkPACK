@@ -31,7 +31,7 @@ export type IframeType = {
   url: string
 }
 
-export type PropsType = MemoType | AnnounceType |IframeType
+export type PropsType = MemoType | AnnounceType | IframeType
 
 export type Task = {
   id: string;
@@ -48,7 +48,7 @@ export type Tasks = {
 
 
 export type TasksState = {
-  tasks: {[workId:string] :Task[]};
+  tasks: { [workId: string]: Task[] };
   loading: boolean;
   error: boolean;
   errorMessage: string;
@@ -66,20 +66,22 @@ const counterSlice = createSlice({
   name: "counter",
   initialState,
   reducers: {
-    setTasks: (state, action: PayloadAction<{workId: string,tasks:Task[]}>) => {
-      let next = {...state.tasks};
+    setTasks: (state, action: PayloadAction<{ workId: string, tasks: Task[] }>) => {
+      let next = { ...state.tasks };
       next[action.payload.workId] = action.payload.tasks
-      return{
-      ...state,
-      tasks: next,
-    }},
-    addTask: (state, action: PayloadAction<{workId: string, task:Task}>) => {
-      let next = {...state.tasks};
-        next[action.payload.workId] = [ ...(next[action.payload.workId]||[])  ,action.payload.task]
-      return{
-      ...state,
-      tasks: next,
-    }}
+      return {
+        ...state,
+        tasks: next,
+      }
+    },
+    addTask: (state, action: PayloadAction<{ workId: string, task: Task }>) => {
+      let next = { ...state.tasks };
+      next[action.payload.workId] = [...(next[action.payload.workId] || []), action.payload.task]
+      return {
+        ...state,
+        tasks: next,
+      }
+    }
   }
 });
 

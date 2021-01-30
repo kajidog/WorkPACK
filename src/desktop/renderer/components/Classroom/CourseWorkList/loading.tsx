@@ -3,7 +3,7 @@
 
 import React from "react"
 import Coffee from "./coffe"
-import styled, {keyframes} from "styled-components"
+import styled, { keyframes } from "styled-components"
 type Props = {
   load: boolean //true: ロード中
 }
