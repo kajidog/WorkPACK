@@ -38,6 +38,9 @@ const Style = styled.div`
   padding: 1rem 0;
   background-color: #222;
   min-height: 100vh;
+  *::-webkit-scrollbar {  /* Chrome, Safari 対応 */
+        display:none;
+    }
 `;
 
 export default Layout;

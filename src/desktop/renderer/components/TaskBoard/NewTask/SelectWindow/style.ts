@@ -44,7 +44,7 @@ li{
     }
 }
 .add_content{
-    overflow: scroll;
+    overflow-y: scroll;
     flex: 1 1 auto;
     width: 100%;
 }

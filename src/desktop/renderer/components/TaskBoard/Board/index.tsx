@@ -17,6 +17,7 @@ export type ResizeTarget = {
   size: Size;
   id: string;
   position: Position;
+  type: "full" | "right" | "bottom"
 };
 
 // メイン
@@ -27,7 +28,13 @@ const Component: React.FC<Props> = (props) => {
     dispatch(counterSlice.actions.setTasks({ workId: props.workId, tasks: next }));
   };
   const [moved, setMoved] = React.useState(false); // 移動中か？
-  const [target, setTarget] = React.useState<null | string>(null); // 移動中のターゲットID
+  const [first, setFirst] = React.useState(false)
+  const [target, setTarget] = React.useState<ResizeTarget>({
+    size: { width: 1, height: 1 },
+    id: "",
+    position: { x: 0, y: 0 },
+    type: "full"
+  }); // 移動中のターゲットID
   const [hover, setHover] = React.useState<null | Position>(null); // 移動中にホバーした項目
   const [bordSize, setBordSize] = React.useState<Size>(
     assets.getBordWidth(info)
@@ -41,6 +48,7 @@ const Component: React.FC<Props> = (props) => {
     size: { width: 1, height: 1 },
     id: "",
     position: { x: 0, y: 0 },
+    type: "full"
   }); // 移動前の情報
 
   const changeInfo = (nextInfo: Task[]) => {
@@ -48,17 +56,17 @@ const Component: React.FC<Props> = (props) => {
     setInfo(nextInfo);
   };
   // 移動スタート
-  const moveStart = (id: string) => {
+  const moveStart = (target: ResizeTarget) => {
     setMoved(true);
-    setTarget(id);
+    setFirst(true)
+    setTarget(target);
   };
 
   // 移動終了
   const moveEnd = () => {
     setMoved(false);
-    if (!target || !hover) return;
+    if (!target || !hover || first) return;
     changeInfo(assets.setInfoData(target, hover, info));
-    setTarget(null);
   };
 
   // リサイズ終了イベント
@@ -91,7 +99,11 @@ const Component: React.FC<Props> = (props) => {
   // ホバーしたとき（移動中）
   const onmouseover = (position: Position) => {
     if (moved) setHover(position);
-    if (isResize) setMouse(assets.getCardSize(position, resizeTarget.position));
+    if (isResize) setMouse(assets.getCardSize(position, resizeTarget));
+    if (first) {
+      setTarget({ ...target, position: position })
+      setFirst(false)
+    }
   };
 
   // 升目
@@ -103,7 +115,7 @@ const Component: React.FC<Props> = (props) => {
   };
 
   return (
-    <Board {...bordSize} onMouseUp={handleMouseUp} resize={isResize}>
+    <Board {...bordSize} onMouseUp={handleMouseUp} resize={isResize ? resizeTarget.type : undefined}>
       {assets.Math(mathProps)}
       {info &&
         assets.mapInfo(info, {
@@ -115,20 +127,6 @@ const Component: React.FC<Props> = (props) => {
             setIsResize(true);
           }
         }, changeInfo)}
-
-      <div>
-        <div>{moved && "click"}</div>
-        <div>
-          {moved &&
-            hover !== null &&
-            "target:[" + hover.x + "," + hover.y + "]"}
-        </div>
-      </div>
-      {isResize && (
-        <div>
-          mouse: [{mouse.width}, {mouse.height}]
-        </div>
-      )}
       {isResize && <Ghost position={resizeTarget.position} size={mouse} />}
     </Board>
   );

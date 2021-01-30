@@ -6,7 +6,7 @@ import styled, { css } from 'styled-components'
 type BordProps = {
   width: number;
   height: number;
-  resize?: boolean;
+  resize?: "full" | "right" | "bottom";
 }
 
 // ボードStyled
@@ -16,6 +16,7 @@ ${props => css`
     position: relative;
     width: ${props.width * ITEM_WIDTH}px;
     height: ${props.height * ITEM_HEIGHT}px;
-  ${props.resize && css`cursor: nwse-resize;`}
+  ${props.resize && css`cursor: ${props.resize === "full" ? "nwse-resize" : props.resize === "right" ? "ew-resize" : "ns-resize"
+    };` }
 `}
 `

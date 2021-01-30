@@ -11,7 +11,7 @@ export type Props = {
   size: Size;
   options: InfoOption;
   classNmae?: string;
-  moveStart: (id: string) => void;
+  moveStart: (target: ResizeTarget) => void;
   onClose: (id: string) => void;
   onHide: (id: string) => void;
   onResizeStart: (target: ResizeTarget) => void;
@@ -28,10 +28,10 @@ const Component: React.FC<Props> = (props) => {
     position,
   } = props;
   const Start = () => {
-    moveStart(id);
+    moveStart({ size, id, position, type: "full" });
   };
-  const startResize = () => {
-    onResizeStart({ size, id, position });
+  const startResize = (type: "bottom" | "right" | "full") => () => {
+    onResizeStart({ size, id, position, type });
   };
   const handleHeaderClick = (type: HeaderButton) => {
     switch (type) {
@@ -46,7 +46,16 @@ const Component: React.FC<Props> = (props) => {
         break;
     }
   };
+  const resizeButtons = (
+    <>
+      <button onMouseDown={startResize("full")} className="resize_button">
+        <UnfoldMoreIcon color="inherit" fontSize="inherit" />
+      </button>
+      <button onMouseDown={startResize("bottom")} className="resize_left"></button>
+      <button onMouseDown={startResize("right")} className="resize_right"></button>
 
+  </>
+)
   return (
     <Style
       hide={props.options.hide}
@@ -61,10 +70,9 @@ const Component: React.FC<Props> = (props) => {
           />
         </div>
         <div className="item_body">{props.children}</div>
-        <button onMouseDown={startResize} className="resize_button">
-          <UnfoldMoreIcon color="inherit" fontSize="inherit" />
-        </button>
       </div>
+
+      {!props.options.hide && resizeButtons}
     </Style>
   );
 };

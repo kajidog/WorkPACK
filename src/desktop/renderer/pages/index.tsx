@@ -2,27 +2,22 @@ import React from "react";
 import Layout from "../components/Layout";
 import Board from "../components/Classroom/CourseList";
 import clice from "../store/user";
-import { useRouter } from "next/router";
 import electron from "electron";
 import { useDispatch } from "react-redux";
 import styled, { css } from "styled-components"
 import { flexCenter } from "../styles";
-import Bord from "../components/TaskBoard/Board"
-import Add from "../components/TaskBoard/NewTask"
+import FreeBorad from "../components/FreeBorad"
+
 const IndexPage = () => {
   const [toggle, setToggle] = React.useState(false)
-  const router = useRouter();
-  if (router.query.code) {
-    router.push("/new_token?code=" + router.query.code);
-    return <div></div>;
-  }
   const dispatch = useDispatch();
+
   const handleChange = (next: boolean) => () => {
     setToggle(next)
   }
+
   React.useEffect(() => {
-    function ado(event: any, msg: any) {
-      console.log(event.type);
+    function ado(_: any, msg: any) {
       if (!msg) {
         return;
       }
@@ -39,24 +34,17 @@ const IndexPage = () => {
     };
   }, []);
 
-  const [add, setAdd] = React.useState(false)
-  const Free = (
-    <div className="free_wrap">
-      <Bord workId="me" />
-      <Add workId="me" toggle={add} onChange={setAdd} />
-    </div>
-  )
-
   const selectButton = (
     <div className="select_group" >
       <button className="task" onClick={handleChange(false)}>未提出の課題に切り替える</button>
       <button className="free" onClick={handleChange(true)}>フリーボードに切り替える</button>
     </div>
   )
+
   return (
     <Layout>
       <Style toggle={toggle}>
-        {toggle && Free}
+        {toggle && <FreeBorad />}
         {!toggle && <Board />}
         {selectButton}
       </Style>
@@ -85,7 +73,7 @@ ${props => css`
   }
   &>button{
         ${flexCenter}
-        margin: 5px 0;
+        margin: .3rem 0;
         font-size: .7rem;
         background-color: #ffd3b6;
         color: #221; 
