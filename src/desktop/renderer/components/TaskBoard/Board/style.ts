@@ -6,9 +6,22 @@ import styled, { css } from 'styled-components'
 type BordProps = {
   width: number;
   height: number;
-  resize?: "full" | "right" | "bottom";
+  resize?: "full" | "right" | "bottom" | "left" | "top";
 }
-
+const getPointer = (props: BordProps) => {
+  switch (props.resize) {
+    case "full":
+      return "nwse-resize"
+    case "left":
+    case "right":
+      return "ew-resize"
+    case "top":
+    case "bottom":
+      return "ns-resize"
+    default:
+      return "default"
+  }
+}
 // ボードStyled
 export const Board = styled.div<BordProps>`
 ${props => css`
@@ -16,7 +29,6 @@ ${props => css`
     position: relative;
     width: ${props.width * ITEM_WIDTH}px;
     height: ${props.height * ITEM_HEIGHT}px;
-  ${props.resize && css`cursor: ${props.resize === "full" ? "nwse-resize" : props.resize === "right" ? "ew-resize" : "ns-resize"
-    };` }
+  ${props.resize && css`cursor: ${getPointer(props)};` }
 `}
 `

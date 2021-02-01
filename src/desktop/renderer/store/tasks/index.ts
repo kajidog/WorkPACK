@@ -31,7 +31,12 @@ export type IframeType = {
   url: string
 }
 
-export type PropsType = MemoType | AnnounceType | IframeType
+export type MarkDownType = {
+  type: "markdown";
+  word: string;
+}
+
+export type PropsType = MemoType | AnnounceType | IframeType | MarkDownType
 
 export type Task = {
   id: string;

@@ -33,7 +33,7 @@ const Component: React.FC<Props> = (props) => {
       >
         <RemoveIcon fontSize="inherit" />
       </div>
-      <div className="title">{props.title}</div>
+      <div onMouseDown={stopPropagation} className="title" >{props.title}</div>
     </Header>
   );
 };

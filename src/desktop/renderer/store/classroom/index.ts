@@ -44,7 +44,7 @@ export type Announces = {
 
 }
 export type Works = {
-  [id: string]: Work[];
+  [courseId: string]: Work[];
 };
 
 type Loading = {

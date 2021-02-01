@@ -1,8 +1,9 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { flexCenter } from "../../../styles";
 
-const Style = styled.div`
-  ul {
+const Style = styled.div<{ loading: boolean | null }>`
+${props => css`
+ul {
     list-style: none;
   }
   .map_item {
@@ -20,6 +21,7 @@ const Style = styled.div`
 
   .emp_work,
   .loading_work {
+    transition: .5s;
     & > div {
       border-radius: 0.5rem;
       box-shadow: 2px 2px 5px #00000033;
@@ -31,5 +33,17 @@ const Style = styled.div`
       color: #455a64;
     }
   }
+  .loading_work{
+    width: ${props.loading ? "300px" : "0"};
+    ${props.loading ? css`
+        opacity: 1;
+      `:
+    css`
+          padding: 1rem 0;
+          overflow: hidden;
+      `
+  }
+  }
+`}
 `;
 export default Style;

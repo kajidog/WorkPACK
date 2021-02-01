@@ -37,10 +37,31 @@ export const Item = styled.div<ItemProps>`
     left: ${WIDTH * props.position.x}px;
     width: ${WIDTH * props.size.width}px;
     height: ${HEIGHT * props.size.height}px;
-    .resize_left{
+    .resize_bottom{
         cursor: ns-resize;
         height: 1.5rem;
         width: 95%;
+        opacity: .0;
+
+    }
+    .resize_top{
+        cursor: ns-resize;
+        height: 10px;
+        width: calc(100% - 3rem);
+        position: absolute;
+        top: 0;
+        left: 1.5rem;
+        opacity: .0;
+    }
+    .resize_left{
+        cursor: ew-resize;
+        height: calc(100% - 3rem);
+        width: 10px;
+        position: absolute;
+        bottom: 1.5rem;
+        left: 0rem; 
+        padding: 0;
+        border: none;
         opacity: .0;
     }
     .resize_right{
@@ -132,6 +153,7 @@ export const Header = styled.div`
         color: #455a64;
         font-size: .7rem;
         overflow-x: scroll;
+        user-select:none;
     }
 `
 

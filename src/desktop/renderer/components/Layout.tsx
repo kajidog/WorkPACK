@@ -12,6 +12,7 @@ const Layout: React.FC<Props> = ({ children, title = "WorkPACK" }) => (
   <Style>
     <Head>
       <title>{title}</title>
+      <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
     </Head>
     <header>
       <Login />

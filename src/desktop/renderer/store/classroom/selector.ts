@@ -12,3 +12,8 @@ export const useAnnounce = (announceId: string) => {
     announce: state.classroom.announces[announceId]
   }));
 };
+export const useWorks = (courseId: string) => {
+  return useSelector((state: { classroom: ClassroomState }) => ({
+    works: state.classroom.works[courseId] || []
+  }));
+}

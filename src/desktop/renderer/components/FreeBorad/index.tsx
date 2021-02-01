@@ -1,5 +1,5 @@
 import React from "react";
-import styled, { css } from "styled-components"
+import styled, { } from "styled-components"
 import { flexCenter } from "../../styles";
 import Bord from "../TaskBoard/Board"
 import Add from "../TaskBoard/NewTask"

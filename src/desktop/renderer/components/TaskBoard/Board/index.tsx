@@ -17,7 +17,7 @@ export type ResizeTarget = {
   size: Size;
   id: string;
   position: Position;
-  type: "full" | "right" | "bottom"
+  type: "full" | "right" | "bottom" | "left" | "top"
 };
 
 // メイン

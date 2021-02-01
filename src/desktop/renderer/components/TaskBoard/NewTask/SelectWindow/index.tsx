@@ -45,6 +45,7 @@ const Component: React.FC<Props> = (props) => {
       "URL",
       "画像",
       "GoogleDrive",
+      "マークダウン"
     ],
     size: "3:4",
     display: "window",
@@ -78,6 +79,26 @@ const Component: React.FC<Props> = (props) => {
         break;
       case "URL":
         handleChangePrompt()
+        break;
+      case "マークダウン":
+        dispatch(
+          counterSlice.actions.addTask({
+            workId: props.workId,
+            task: {
+              id: getId(tasks),
+              size: getSize(state.size),
+              position: { x: 0, y: 0 },
+              options: {
+                title: "マークダウン",
+                hide: false,
+              },
+              props: {
+                type: "markdown",
+                word: ""
+              }
+            }
+          })
+        )
         break;
       case "メモ":
         dispatch(

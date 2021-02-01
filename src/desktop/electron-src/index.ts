@@ -12,6 +12,7 @@ import { getAnnouncement, getCourse, getWorks, uploadFile } from "./api/classroo
 const AUTH_WINDOW_ID = "ADD_WINDOW";
 const MAIN_WINDOW_ID = "MAIN_WINDOW";
 const CLASS_ROOM_WINDOW_ID = "CLASS_ROOM_WINDOW";
+const EDITOR_WINDOW_ID = "EDITOR_WINDOW_ID";
 const windows: { [id: string]: BrowserWindow } = {};
 const windowVies: { [id: string]: BrowserView } = {};
 
@@ -220,3 +221,17 @@ const newAuth = (url: string) => {
   });
 }
 
+
+ipcMain.on("open_editor", (_, args) => {
+  const view = new BrowserView();
+  view.webContents.loadURL('file://' + __dirname + '/../index.html')
+  view.webContents.openDevTools();
+  windows[MAIN_WINDOW_ID].setBrowserView(view)
+  windowVies[EDITOR_WINDOW_ID] = view
+  view.setBounds({ x: 2, y: 20, width: 800, height: 800 })
+  console.log("log", args);
+})
+
+ipcMain.on("close_editer", () => {
+  windows[MAIN_WINDOW_ID].removeBrowserView(windowVies[EDITOR_WINDOW_ID])
+})

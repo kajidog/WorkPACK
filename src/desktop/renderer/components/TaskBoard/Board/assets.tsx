@@ -3,6 +3,7 @@ import { Task, Position, Size } from '../../../store/tasks'
 import Item, { Props } from '../Item'
 import MathComponent, { Props as MathProps1 } from '../Math'
 import Memo from '../../Item/Memo'
+import MarkDown from '../../Item/MarkDown'
 import Announce from '../../Item/Announce'
 import Iframe from '../../Item/Iframe'
 import { ResizeTarget } from '.'
@@ -17,7 +18,7 @@ export const mapInfo = (
   const changeMemo = (id: string) => (word: string) => {
     const next: Task[] = []
     information.forEach((item) => {
-      if (item.id === id && item.props.type === 'memo') {
+      if (item.id === id && item.props.type === 'memo' || item.props.type === 'markdown') {
         next.push({ ...item, props: { ...item.props, word } })
       } else next.push(item)
     })
@@ -33,9 +34,11 @@ export const mapInfo = (
           return <Memo onChange={changeMemo(info.id)} word={info.props.word} />
         case 'announce':
           return <Announce announce={info.props.announce} />
-        case 'iframe':
-          return <Iframe url={info.props.url} />
-      }
+          case 'iframe':
+            return <Iframe url={info.props.url} />
+        case 'markdown':
+          return <MarkDown onChange={changeMemo(info.id)} word={info.props.word} />
+          }
     }
     return (
       <Item
@@ -169,10 +172,12 @@ export const getCardSize = (
   height < 1 && (height = 1)
   switch (target.type) {
     case 'right':
+    case 'left':
       height = target.size.height
       break
     case 'bottom':
-      width = target.size.width
+    case 'top':
+      width = target.size.width;
   }
   return { width, height }
 }

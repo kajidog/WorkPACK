@@ -30,7 +30,7 @@ const Component: React.FC<Props> = (props) => {
   const Start = () => {
     moveStart({ size, id, position, type: "full" });
   };
-  const startResize = (type: "bottom" | "right" | "full") => () => {
+  const startResize = (type: "bottom" | "right" | "full" | "left" | "top") => () => {
     onResizeStart({ size, id, position, type });
   };
   const handleHeaderClick = (type: HeaderButton) => {
@@ -51,7 +51,9 @@ const Component: React.FC<Props> = (props) => {
       <button onMouseDown={startResize("full")} className="resize_button">
         <UnfoldMoreIcon color="inherit" fontSize="inherit" />
       </button>
-      <button onMouseDown={startResize("bottom")} className="resize_left"></button>
+      <button onMouseDown={startResize("left")} className="resize_left"></button>
+      <button onMouseDown={startResize("top")} className="resize_top"></button>
+      <button onMouseDown={startResize("bottom")} className="resize_bottom"></button>
       <button onMouseDown={startResize("right")} className="resize_right"></button>
 
   </>

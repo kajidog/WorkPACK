@@ -1,12 +1,14 @@
 import Style from "./style";
 import { getWorks, mapWorks } from "./assets";
 import { useUserState } from "../../../store/user/selector";
+import { useWorks } from "../../../store/classroom/selector";
 import { ipcRenderer } from "electron";
-import { Work } from "../../../store/classroom";
+import slice, { } from "../../../store/classroom";
 import React from "react";
 import Coffee1 from "./coffe";
 import Coffee from "../../../svg/Coffee";
 import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
 export type Props = {
   courseId: string;
   onClose: (courseId: string) => void
@@ -15,13 +17,14 @@ export type Props = {
 const Component: React.FC<Props> = (props) => {
   const router = useRouter();
   const [loading, setLoading] = React.useState<boolean | null>(null);
-  const [works, setWorks] = React.useState<Work[]>([]);
   const { auth } = useUserState();
   const [auth1, setAuth1] = React.useState(null);
+  const { works } = useWorks(props.courseId)
+  const dispatch = useDispatch()
   React.useEffect(() => {
     function get(_: any, msg: any) {
       if (msg) {
-        setWorks(msg);
+        dispatch(slice.actions.setWorks({ id: props.courseId, works: msg }))
         if (!msg.length) {
           props.onClose(props.courseId)
         }
@@ -54,7 +57,6 @@ const Component: React.FC<Props> = (props) => {
     <div className="loading_work">
       <div>
         <Coffee1 size={40} />
-
         loading...
         </div>
     </div>
@@ -71,9 +73,9 @@ const Component: React.FC<Props> = (props) => {
   );
 
   return (
-    <Style>
+    <Style loading={loading} >
       <div className="map_item">
-        {loading && liadingDom}
+        {liadingDom}
         {mapWorks(works, props.courseId)}
         {!loading && !works.length && empWork}
       </div>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Editor.js</title>
+    <style>
+        body {
+            background-color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Editor.jsを理解する</h1>
+    <div id="editorjs"></div>
+    <button>記事を保存する</button>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
+    <script>
+        const editorJS = new EditorJS({
+            holder: "editorjs",
+        });
+    </script>
+</body>
+
+</html>
