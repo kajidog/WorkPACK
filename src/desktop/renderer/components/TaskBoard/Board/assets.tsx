@@ -8,8 +8,7 @@ import Announce from '../../Item/Announce'
 import Iframe from '../../Item/Iframe'
 import Todo, { todo } from "../../Item/ToDo"
 import { ResizeTarget } from '.'
-const MIN_MATH_WIDTH = 15
-const MIN_MATH_HEIGHT = 10
+import { HEIGHT, WIDTH } from '../Item/style'
 
 export const mapInfo = (
   information: Task[],
@@ -112,11 +111,13 @@ export const Math = (props: MathProps) =>
         )),
     )
 
-export const getBordWidth = (info: Task[]) => {
+export const getBordWidth = (info: Task[], width: number, height: number) => {
   let size = {
     width: 0,
     height: 0,
   }
+  const MIN_MATH_WIDTH = width / WIDTH
+  const MIN_MATH_HEIGHT = height / HEIGHT
 
   info.forEach((item) => {
     const width = item.position.x + item.size.width

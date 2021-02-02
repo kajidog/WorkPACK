@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ipcRenderer } from "electron";
 import { todo } from "../../components/Item/ToDo";
 import { Announce } from "../classroom";
 
@@ -84,7 +83,6 @@ const counterSlice = createSlice({
     setTasks: (state, action: PayloadAction<{ workId: string, tasks: Task[] }>) => {
       let next = { ...state.tasks };
       next[action.payload.workId] = action.payload.tasks
-      ipcRenderer.send("set_tasks", next)
       return {
         ...state,
         tasks: next,

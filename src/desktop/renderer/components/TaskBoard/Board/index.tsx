@@ -32,7 +32,7 @@ const Component: React.FC<Props> = (props) => {
   const [target, setTarget] = React.useState<ResizeTarget & { orgin: Position } | null>(); // 移動中のターゲットID
   const [hover, setHover] = React.useState<null | Position>(null); // 移動中にホバーした項目
   const [bordSize, setBordSize] = React.useState<Size>(
-    assets.getBordWidth(info)
+    assets.getBordWidth(info, document.body.offsetWidth, document.body.offsetHeight)
   ); // ボードの大きさ
   const [isResize, setIsResize] = React.useState(false); // リサイズ中か？
   const [mouse, setMouse] = React.useState<Size>({
@@ -52,7 +52,7 @@ const Component: React.FC<Props> = (props) => {
   }); // 移動前の情報
 
   const changeInfo = (nextInfo: Task[]) => {
-    setBordSize(assets.getBordWidth(nextInfo));
+    setBordSize(assets.getBordWidth(nextInfo, document.body.offsetWidth, document.body.offsetHeight));
     setInfo(nextInfo);
   };
   // 移動スタート
