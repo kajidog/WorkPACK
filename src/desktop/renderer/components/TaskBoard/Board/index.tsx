@@ -15,7 +15,7 @@ type Props = {
 // リサイズの引数
 export type ResizeTarget = {
   size: Size;
-  id: string;
+  id: number;
   position: Position;
   type: "full" | "right" | "bottom" | "left" | "top"
 };
@@ -46,7 +46,7 @@ const Component: React.FC<Props> = (props) => {
 
   const [resizeTarget, setResizeTarget] = React.useState<ResizeTarget>({
     size: { width: 1, height: 1 },
-    id: "",
+    id: 0,
     position: { x: 0, y: 0 },
     type: "full"
   }); // 移動前の情報
@@ -88,12 +88,12 @@ const Component: React.FC<Props> = (props) => {
   };
 
   // 削除いべんと
-  const deleteInfoEvent = (id: string) => {
+  const deleteInfoEvent = (id: number) => {
     changeInfo(assets.deleteInfo(id, info));
   };
 
   // 隠すイベント
-  const toggleHideInfoEvent = (id: string) => {
+  const toggleHideInfoEvent = (id: number) => {
     changeInfo(assets.changeToggleInfo(id, info));
   };
 
@@ -105,6 +105,7 @@ const Component: React.FC<Props> = (props) => {
       setTarget({ ...target, position: position })
       setFirst(false)
       setPositon(assets.getCardPosition(position, { ...target, position: position }))
+      setHover(position)
     }
     if (isMoved && target && !first) {
       setHover(position)

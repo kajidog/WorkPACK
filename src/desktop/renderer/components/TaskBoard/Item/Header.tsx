@@ -2,13 +2,18 @@ import { Header } from "./style";
 import CloseIcon from "@material-ui/icons/Close";
 import RemoveIcon from "@material-ui/icons/Remove";
 import { stopPropagation } from "../../../utils";
-
+import React from "react"
+import BorderColorIcon from '@material-ui/icons/BorderColor';
+import Canvas from "../../Canvas"
 export type HeaderButton = "close" | "up" | "hide";
 export type Props = {
   title?: string;
   buttonClicked?: (type: HeaderButton) => void;
 };
 const Component: React.FC<Props> = (props) => {
+
+  const [canvasToggle, setCanvasToggle] = React.useState(false)
+
   const handleClick = (type: HeaderButton) => (
     e: React.MouseEvent<HTMLElement, MouseEvent>
   ) => {
@@ -17,6 +22,9 @@ const Component: React.FC<Props> = (props) => {
       props.buttonClicked(type);
     }
   };
+  const changeToggle = () => {
+    setCanvasToggle(!canvasToggle)
+  }
   return (
     <Header>
       <div
@@ -33,7 +41,18 @@ const Component: React.FC<Props> = (props) => {
       >
         <RemoveIcon fontSize="inherit" />
       </div>
-      <div onMouseDown={stopPropagation} className="title" >{props.title}</div>
+      <div
+        className="hide button"
+        onMouseDown={stopPropagation}
+        onClick={changeToggle}
+      >
+        <BorderColorIcon fontSize="inherit" />
+      </div>
+      <div className="title" >{props.title}</div>
+
+      {canvasToggle && <div onMouseDown={stopPropagation} className="canvas" > <Canvas /></div>}
+
+
     </Header>
   );
 };

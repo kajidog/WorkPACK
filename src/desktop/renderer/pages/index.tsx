@@ -2,6 +2,7 @@ import React from "react";
 import Layout from "../components/Layout";
 import Board from "../components/Classroom/CourseList";
 import clice from "../store/user";
+import taskClice from "../store/tasks";
 import electron from "electron";
 import { useDispatch } from "react-redux";
 import styled, { css } from "styled-components"
@@ -29,6 +30,10 @@ const IndexPage = () => {
       }
     }
     electron.ipcRenderer.on("update_user", ado);
+    const tasks = electron.ipcRenderer.sendSync("get_tasks")
+    if (tasks) {
+      dispatch(taskClice.actions.setAll(tasks))
+    }
     return () => {
       electron.ipcRenderer.removeListener("update_user", ado);
     };

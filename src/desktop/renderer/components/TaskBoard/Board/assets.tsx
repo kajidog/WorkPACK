@@ -6,6 +6,7 @@ import Memo from '../../Item/Memo'
 import MarkDown from '../../Item/MarkDown'
 import Announce from '../../Item/Announce'
 import Iframe from '../../Item/Iframe'
+import Todo, { todo } from "../../Item/ToDo"
 import { ResizeTarget } from '.'
 const MIN_MATH_WIDTH = 15
 const MIN_MATH_HEIGHT = 10
@@ -15,11 +16,20 @@ export const mapInfo = (
   itemProps: Omit<Props, 'key' | 'id' | 'position' | 'size' | 'options'>,
   onChange: (task: Task[]) => void,
 ) => {
-  const changeMemo = (id: string) => (word: string) => {
+  const changeMemo = (id: number) => (word: string) => {
     const next: Task[] = []
     information.forEach((item) => {
       if (item.id === id && item.props.type === 'memo' || item.props.type === 'markdown') {
         next.push({ ...item, props: { ...item.props, word } })
+      } else next.push(item)
+    })
+    onChange(next)
+  }
+  const changeTodo = (id: number) => (todo: todo) => {
+    const next: Task[] = []
+    information.forEach((item) => {
+      if (item.id === id && item.props.type === 'todo') {
+        next.push({ ...item, props: { ...item.props, todo } })
       } else next.push(item)
     })
     onChange(next)
@@ -38,6 +48,8 @@ export const mapInfo = (
             return <Iframe url={info.props.url} />
         case 'markdown':
           return <MarkDown onChange={changeMemo(info.id)} word={info.props.word} />
+        case 'todo':
+          return <Todo todo={info.props.todo} onChange={changeTodo(info.id)} />
           }
     }
     return (
@@ -118,7 +130,7 @@ export const getBordWidth = (info: Task[]) => {
   return size
 }
 
-export const getItemPosition = (id: string, info: Task[]) => {
+export const getItemPosition = (id: number, info: Task[]) => {
   for (let item of info) {
     if (item.id === id) {
       return item.position
@@ -127,7 +139,7 @@ export const getItemPosition = (id: string, info: Task[]) => {
   return -1
 }
 
-export const setInfoSize = (id: string, size: Size, info: Task[]) => {
+export const setInfoSize = (id: number, size: Size, info: Task[]) => {
   let nextInfo: Task[] = []
   let last: Task | undefined
   info.forEach((item) => {
@@ -139,14 +151,14 @@ export const setInfoSize = (id: string, size: Size, info: Task[]) => {
   return nextInfo
 }
 
-export const deleteInfo = (id: string, info: Task[]) => {
+export const deleteInfo = (id: number, info: Task[]) => {
   const next: Task[] = []
   info.forEach((item) => item.id !== id && next.push(item))
   return next
 }
 
 export const changeToggleInfo = (
-  id: string,
+  id: number,
   info: Task[],
   toggle?: boolean,
 ) => {

@@ -9,6 +9,7 @@ import prepareNext from "electron-next";
 import { getAuth, getNewtokenURL, setNewToken } from "./api/login";
 import { getProfile } from "./api/profile";
 import { getAnnouncement, getCourse, getWorks, uploadFile } from "./api/classroom";
+import { getTasks, setTasks } from "./api/store";
 const AUTH_WINDOW_ID = "ADD_WINDOW";
 const MAIN_WINDOW_ID = "MAIN_WINDOW";
 const CLASS_ROOM_WINDOW_ID = "CLASS_ROOM_WINDOW";
@@ -235,3 +236,14 @@ ipcMain.on("open_editor", (_, args) => {
 ipcMain.on("close_editer", () => {
   windows[MAIN_WINDOW_ID].removeBrowserView(windowVies[EDITOR_WINDOW_ID])
 })
+
+ipcMain.on("get_tasks", (event) => {
+  event.returnValue = getTasks()
+})
+
+ipcMain.on("set_tasks", (_, args) => {
+  setTasks(args)
+})
+
+
+

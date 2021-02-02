@@ -1,4 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { ipcRenderer } from "electron";
+import { todo } from "../../components/Item/ToDo";
 import { Announce } from "../classroom";
 
 export type Size = {
@@ -36,10 +38,15 @@ export type MarkDownType = {
   word: string;
 }
 
-export type PropsType = MemoType | AnnounceType | IframeType | MarkDownType
+export type ToDoType = {
+  type: "todo",
+  todo: todo
+}
+
+export type PropsType = MemoType | AnnounceType | IframeType | MarkDownType | ToDoType
 
 export type Task = {
-  id: string;
+  id: number;
   size: Size;
   position: Position;
   options: InfoOption;
@@ -71,9 +78,13 @@ const counterSlice = createSlice({
   name: "counter",
   initialState,
   reducers: {
+    setAll: (state, action: PayloadAction<Tasks>) => {
+      return { ...state, tasks: action.payload }
+    },
     setTasks: (state, action: PayloadAction<{ workId: string, tasks: Task[] }>) => {
       let next = { ...state.tasks };
       next[action.payload.workId] = action.payload.tasks
+      ipcRenderer.send("set_tasks", next)
       return {
         ...state,
         tasks: next,

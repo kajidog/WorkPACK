@@ -109,6 +109,14 @@ export default Item;
 
 
 export const Header = styled.div`
+    .canvas{
+        position: absolute;
+        top:3rem;
+        left:1rem;
+        right: 0;
+        bottom: 0;
+        border: 1px solid red;
+    }
     height: 1.75rem;
     background-color: #ffd3b6;
     border-radius: .5rem .5rem 0 0;

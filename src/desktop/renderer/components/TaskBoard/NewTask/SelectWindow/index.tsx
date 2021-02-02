@@ -25,11 +25,11 @@ type State = {
 };
 
 const getId = (tasks: Task[]) => {
-  const index = tasks.length - 1
-  if (tasks[index]) {
-    return tasks[index].id + "1"
-  }
-  return "1"
+  let maxId = 0
+  tasks.forEach((task) => {
+    task.id > maxId && (maxId = task.id)
+  })
+  return maxId + 1
 }
 
 const Component: React.FC<Props> = (props) => {
@@ -45,7 +45,7 @@ const Component: React.FC<Props> = (props) => {
       "URL",
       "画像",
       "GoogleDrive",
-      "マークダウン"
+      "ToDo"
     ],
     size: "3:4",
     display: "window",
@@ -80,7 +80,7 @@ const Component: React.FC<Props> = (props) => {
       case "URL":
         handleChangePrompt()
         break;
-      case "マークダウン":
+      case "ToDo":
         dispatch(
           counterSlice.actions.addTask({
             workId: props.workId,
@@ -89,12 +89,15 @@ const Component: React.FC<Props> = (props) => {
               size: getSize(state.size),
               position: { x: 0, y: 0 },
               options: {
-                title: "マークダウン",
+                title: "ToDo",
                 hide: false,
               },
               props: {
-                type: "markdown",
-                word: ""
+                type: "todo",
+                todo: [{
+                  done: false,
+                  title: "jorjgr"
+                }]
               }
             }
           })

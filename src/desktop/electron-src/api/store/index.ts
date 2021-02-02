@@ -19,3 +19,15 @@ export const getToken = () => {
 export const deleteToken = () => {
   store.delete("token");
 };
+
+export const getTasks = () => {
+  try {
+    return store.get("tasks");
+  } catch {
+    return {};
+  }
+}
+
+export const setTasks = (token: any) => {
+  return store.set("tasks", token);
+};

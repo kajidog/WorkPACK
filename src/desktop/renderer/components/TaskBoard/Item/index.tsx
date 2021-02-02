@@ -6,14 +6,14 @@ import UnfoldMoreIcon from "@material-ui/icons/UnfoldMore";
 import { Size, Position, InfoOption } from "../../../store/tasks";
 
 export type Props = {
-  id: string;
+  id: number;
   position: Position;
   size: Size;
   options: InfoOption;
   classNmae?: string;
   moveStart: (target: ResizeTarget) => void;
-  onClose: (id: string) => void;
-  onHide: (id: string) => void;
+  onClose: (id: number) => void;
+  onHide: (id: number) => void;
   onResizeStart: (target: ResizeTarget) => void;
 };
 
