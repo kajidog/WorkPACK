@@ -13,9 +13,9 @@ z-index: 9999;
 ${flexCenter}
 & > div{
     background-color: #222;
-    height: 90vh;
     max-height: 40rem;
-    width: 50vw;
+    width: 90%;
+    max-width: 50rem;
     color: #fff;
     display: flex;
     flex-direction: column;
@@ -65,6 +65,14 @@ li{
     border-radius: .5rem .5rem 0 0;
     ${flexCenter}
 }
+.select_img{
+    display: block;
+    width: 100%;
+    height: 100%;
+    &>input{
+        display: none;
+    }
+}
 
 `
 
@@ -94,10 +102,10 @@ export const Histry = styled.div`
             color: #000
         }
         &.redo{
-            border-radius: 0 .5rem .5rem 0;
+            border-radius: .5rem .5rem ;
         }
         &.undo{
-            border-radius: .5rem 0 0 .5rem;
+            border-radius: .5rem .5rem;
             border: 1px solid #ddd;
 
         }

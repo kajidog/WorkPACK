@@ -3,12 +3,14 @@ import { Task, Position, Size } from '../../../store/tasks'
 import Item, { Props } from '../Item'
 import MathComponent, { Props as MathProps1 } from '../Math'
 import Memo from '../../Item/Memo'
-import MarkDown from '../../Item/MarkDown'
 import Announce from '../../Item/Announce'
 import Iframe from '../../Item/Iframe'
+import WorkMaterial from '../../Item/WorkMaterial'
 import Todo, { todo } from "../../Item/ToDo"
+import Img from "../../Item/Img"
 import { ResizeTarget } from '.'
 import { HEIGHT, WIDTH } from '../Item/style'
+import { getHTML } from '../../../utils'
 
 export const mapInfo = (
   information: Task[],
@@ -18,8 +20,21 @@ export const mapInfo = (
   const changeMemo = (id: number) => (word: string) => {
     const next: Task[] = []
     information.forEach((item) => {
-      if (item.id === id && item.props.type === 'memo' || item.props.type === 'markdown') {
-        next.push({ ...item, props: { ...item.props, word } })
+      if (item.id === id) {
+        switch (item.props.type) {
+          case "memo":
+            next.push({ ...item, props: { ...item.props, word, html: getHTML(word) } })
+            break;
+          case "announce":
+            next.push({ ...item, props: { ...item.props, announce: { ...item.props.announce, text: word }, html: getHTML(word) } })
+            break;
+          case "workMaterial":
+            next.push({ ...item, props: { ...item.props, material: { ...item.props.material, description: word }, html: getHTML(word) } })
+            break;
+          case "img":
+            next.push({ ...item, props: { ...item.props, url: word } })
+            break;
+        }
       } else next.push(item)
     })
     onChange(next)
@@ -33,6 +48,7 @@ export const mapInfo = (
     })
     onChange(next)
   }
+
   return information.map((info) => {
     const Child = () => {
       if (!info.props) {
@@ -40,16 +56,20 @@ export const mapInfo = (
       }
       switch (info.props.type) {
         case 'memo':
-          return <Memo onChange={changeMemo(info.id)} word={info.props.word} />
+          return <Memo html={info.props.html} onChange={changeMemo(info.id)} word={info.props.word} />
         case 'announce':
-          return <Announce announce={info.props.announce} />
+          return <Announce onChange={changeMemo(info.id)} html={info.props.html} announce={info.props.announce} />
+        case 'workMaterial':
+          return <WorkMaterial onChange={changeMemo(info.id)} html={info.props.html} material={info.props.material} />
           case 'iframe':
             return <Iframe url={info.props.url} />
         case 'markdown':
-          return <MarkDown onChange={changeMemo(info.id)} word={info.props.word} />
+          return null
         case 'todo':
           return <Todo todo={info.props.todo} onChange={changeTodo(info.id)} />
-          }
+        case 'img':
+          return <Img url={info.props.url} onChange={changeMemo(info.id)} id={info.id} />
+      }
     }
     return (
       <Item
@@ -164,14 +184,16 @@ export const changeToggleInfo = (
   toggle?: boolean,
 ) => {
   let nextInfo: Task[] = []
+  let last: Task | undefined = undefined;
   info.forEach((item) => {
     if (item.id === id) {
-      nextInfo.push({
+      last = {
         ...item,
         options: { ...item.options, hide: toggle || !item.options.hide },
-      })
+      }
     } else nextInfo.push(item)
   })
+  last && nextInfo.push(last)
   return nextInfo
 }
 

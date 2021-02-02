@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { AppProps } from "next/app";
 import { Provider } from "react-redux";
 import createStore from "../store/createStore";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import "easymde/dist/easymde.min.css";
 import { ThemeProvider as StyledComponentsThemeProvider } from "styled-components";
 import {
   ThemeProvider as MaterialUIThemeProvider,

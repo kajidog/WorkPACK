@@ -12,7 +12,6 @@ const Layout: React.FC<Props> = ({ children, title = "WorkPACK" }) => (
   <Style>
     <Head>
       <title>{title}</title>
-      <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
     </Head>
     <header>
       <Login />
@@ -23,18 +22,16 @@ const Layout: React.FC<Props> = ({ children, title = "WorkPACK" }) => (
 
 const Style = styled.div`
   white-space: pre-wrap;
-
   header {
     position: fixed;
     height: 4rem;
     top: 0;
     right: 0;
-
     width: 5rem;
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    z-index: 800;
+    z-index: 1;
   }
   padding: 1rem 0;
   background-color: #222;

@@ -20,14 +20,14 @@ export const deleteToken = () => {
   store.delete("token");
 };
 
-export const getTasks = () => {
+export const getTasks = (workId: string) => {
   try {
-    return store.get("tasks");
+    return store.get("tasks_" + workId);
   } catch {
     return {};
   }
 }
 
-export const setTasks = (token: any) => {
-  return store.set("tasks", token);
+export const setTasks = (token: any, workId: string) => {
+  return store.set("tasks_" + workId, token);
 };

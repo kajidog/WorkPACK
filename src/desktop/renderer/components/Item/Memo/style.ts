@@ -1,15 +1,13 @@
 import styled from "styled-components"
 
-export const Style = styled.textarea`
+export const Style = styled.div`
     width: 100%;
     height: 100%;
-    border: none;
-    resize: none;
-    outline: none;
-    padding: .5rem;
-    font-size: 1.2rem;
-    max-width:5000px;
-    max-height:5000px;
-    box-sizing: border-box;
-    border-radius: .5rem;
+    overflow: scroll;
+    .prevew{
+        padding: .5rem;
+        width: 100%;
+        height: 100%;
+        overflow: scroll;
+    }
 `

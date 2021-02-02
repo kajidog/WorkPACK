@@ -20,6 +20,9 @@ export const Item = styled.div<ItemProps>`
         height: 100%;    
         border-radius: .5rem;
         box-shadow: 4px 3px 10px 2px #33333333;
+        p{
+            margin: 0;
+        }
     }
     &  .item_body{
         box-sizing: border-box;

@@ -39,6 +39,18 @@ export type Announce = {
   updateTime: string;
   creatorUserId: string
 }
+
+export type courseWorkMaterial = {
+  id: string;
+  courseId: string;
+  title: string;
+  description: string;
+  materials: any[];
+  creationTime: string;
+  alternateLink: string;
+  updateTime: string;
+  creatorUserId: string;
+}
 export type Announces = {
   [announceId: string]: Announce;
 
@@ -46,6 +58,10 @@ export type Announces = {
 export type Works = {
   [courseId: string]: Work[];
 };
+
+export type courseWorkMaterials = {
+  [courseId: string]: courseWorkMaterial[];
+}
 
 type Loading = {
   state: null | boolean;
@@ -59,6 +75,7 @@ export type ClassroomState = {
   works: Works;
   error: boolean;
   errorMessage: string;
+  courseWorkMaterials: courseWorkMaterials
 };
 
 export const initialState: ClassroomState = {
@@ -71,6 +88,7 @@ export const initialState: ClassroomState = {
   works: {},
   error: false,
   errorMessage: "",
+  courseWorkMaterials: {},
 };
 
 const slice = createSlice({

@@ -35,20 +35,16 @@ li{
     }
 
   &:hover{
-    color: red;
-
     & .next_dep{
         display: block;
         transform: translateX(5px);
         transition: .7s;
-        color: #f54;
 
     }
   }
   .add_item:hover{
     transition: .5s;
     transform: rotate(90deg);
-    color: red;
   }
 
 }

@@ -8,7 +8,7 @@ import isDev from "electron-is-dev";
 import prepareNext from "electron-next";
 import { getAuth, getNewtokenURL, setNewToken } from "./api/login";
 import { getProfile } from "./api/profile";
-import { getAnnouncement, getCourse, getWorks, uploadFile } from "./api/classroom";
+import { getAnnouncement, getCourse, getCourseWorkMaterials, getWorks, uploadFile } from "./api/classroom";
 import { getTasks, setTasks } from "./api/store";
 const AUTH_WINDOW_ID = "ADD_WINDOW";
 const MAIN_WINDOW_ID = "MAIN_WINDOW";
@@ -27,6 +27,8 @@ app.on("ready", async () => {
       nodeIntegration: true,
       preload: join(__dirname, "preload.js"),
     },
+    darkTheme: true,
+
   });
 
   const url = isDev
@@ -38,6 +40,7 @@ app.on("ready", async () => {
     });
 
   windows[MAIN_WINDOW_ID].loadURL(url);
+  windows[MAIN_WINDOW_ID].webContents.openDevTools();
 });
 
 // Quit the app once all windows are closed
@@ -156,7 +159,7 @@ ipcMain.on("get_works", async (event, args) => {
   })
 })
 
-// 課題情報の取得
+// アナウンスの取得
 ipcMain.on("get_work_info", async (event, args) => {
   const auth = await getAuth()
   getAnnouncement(auth, args).then((res) => {
@@ -169,6 +172,22 @@ ipcMain.on("get_work_info", async (event, args) => {
   }).catch((err) => {
     console.log("get_work_info_failed_", err);
     event.sender.send('get_work_info_failed_' + args.courseId, err);
+  })
+})
+
+// 課題情報の取得
+ipcMain.on("get_course_work_materials", async (event, args) => {
+  const auth = await getAuth()
+  getCourseWorkMaterials(auth, args).then((res) => {
+    if (res) {
+      console.log("課題情報", res);
+      event.sender.send('get_course_work_materials_' + args.courseId, [res.courseWorkMaterial, res.pageToken]);
+      return
+    }
+    throw ""
+  }).catch((err) => {
+    console.log("get_course_work_materials_failed_", err);
+    event.sender.send('get_course_work_materials_failed_' + args.courseId, err);
   })
 })
 
@@ -237,12 +256,12 @@ ipcMain.on("close_editer", () => {
   windows[MAIN_WINDOW_ID].removeBrowserView(windowVies[EDITOR_WINDOW_ID])
 })
 
-ipcMain.on("get_tasks", (event) => {
-  event.returnValue = getTasks()
+ipcMain.on("get_tasks", (event, args) => {
+  event.returnValue = getTasks(args)
 })
 
 ipcMain.on("set_tasks", (_, args) => {
-  setTasks(args)
+  setTasks(args[0], args[1])
 })
 
 

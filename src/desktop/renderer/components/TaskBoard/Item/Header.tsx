@@ -63,7 +63,7 @@ const Component: React.FC<Props> = (props) => {
       <div className="title" onMouseDown={stopPropagation} onDoubleClick={handleChangePrompt} >{props.title}</div>
 
       {canvasToggle && <div onMouseDown={stopPropagation} className="canvas" > <Canvas /></div>}
-      {prompt && <div onMouseDown={stopPropagation} ><Prompt title="タイトルを入力" onSubmit={submit} onClose={handleChangePrompt} /></div>}
+      {prompt && <div onMouseDown={stopPropagation} ><Prompt title="タイトルを入力" value={props.title} onSubmit={submit} onClose={handleChangePrompt} /></div>}
 
     </Header>
   );

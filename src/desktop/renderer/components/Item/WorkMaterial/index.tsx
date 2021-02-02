@@ -1,11 +1,11 @@
 import React from "react"
-import { Announce } from "../../../store/classroom"
+import { courseWorkMaterial } from "../../../store/classroom"
 import { Style } from "./style"
 import MarkDown, { preview } from "../MarkDown"
 
 export type Props = {
-    announce: Announce
-    html: string;
+    material: courseWorkMaterial
+    html: string
     onChange: (html: string) => void
 }
 
@@ -20,12 +20,15 @@ const Component: React.FC<Props> = (props) => {
     }
     const Preview = (
         <div className="prevew" onDoubleClick={changeToggle} >
+            <h2>{props.material.title}</h2>
             {preview(props.html)}
         </div>
     )
+
     return (
         <Style >
-            {toggle && <MarkDown onClose={changeToggle} word={props.announce.text} onChange={changeText} />}
+
+            {toggle && <MarkDown onClose={changeToggle} word={props.material.description} onChange={changeText} />}
             {!toggle && Preview}
         </Style>
     )

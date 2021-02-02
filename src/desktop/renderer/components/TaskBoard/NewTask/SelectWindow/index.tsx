@@ -2,13 +2,14 @@ import React from "react";
 import styled from "./style";
 import History from "./History";
 import SizeSelect, { AddSize, getSize } from "./SizeSelect";
-import { stopPropagation } from "../../../../utils";
+import { getHTML, stopPropagation } from "../../../../utils";
 import counterSlice, { Task } from "../../../../store/tasks";
 import { useTask } from "../../../../store/tasks/selector";
 import SelectCourse from "../SelectCourse";
 import SelectWork from "../SelectWork";
 import { useDispatch } from "react-redux";
-import { Announce } from "../../../../store/classroom";
+import { Announce, courseWorkMaterial } from "../../../../store/classroom";
+import SelectClassMaterial from "../SelectClassMaterial"
 import Prompt from "./prompt"
 
 export type Props = {
@@ -64,7 +65,7 @@ const Component: React.FC<Props> = (props) => {
   const handleChangeWindow = (
     display: "corse" | "window" | "courses" | "material",
     courseId: string = state.courseId,
-    type: boolean = state.isAnnounce
+    type: boolean = true
   ) => {
     setState({ ...state, display, courseId, isAnnounce: type });
   };
@@ -79,6 +80,8 @@ const Component: React.FC<Props> = (props) => {
         break;
       case "URL":
         handleChangePrompt()
+        break;
+      case "画像":
         break;
       case "ToDo":
         dispatch(
@@ -99,6 +102,7 @@ const Component: React.FC<Props> = (props) => {
             }
           })
         )
+        doClose();
         break;
       case "メモ":
         dispatch(
@@ -114,7 +118,8 @@ const Component: React.FC<Props> = (props) => {
               },
               props: {
                 type: "memo",
-                word: ""
+                word: "",
+                html: ""
               }
             }
           })
@@ -158,7 +163,8 @@ const Component: React.FC<Props> = (props) => {
           },
           props: {
             type: "announce",
-            announce
+            announce,
+            html: getHTML(announce.text)
           }
         }
       })
@@ -166,9 +172,72 @@ const Component: React.FC<Props> = (props) => {
     doClose();
   }
 
+  const addCourseWorkMaterial = (material: courseWorkMaterial) => {
+    dispatch(
+      counterSlice.actions.addTask({
+        workId: props.workId,
+        task: {
+          id: getId(tasks),
+          size: getSize(state.size),
+          position: { x: 0, y: 0 },
+          options: {
+            title: "課題資料",
+            hide: false,
+          },
+          props: {
+            type: "workMaterial",
+            material,
+            html: getHTML(material.description)
+          }
+        }
+      })
+    )
+    doClose();
+  }
+  const handleChangeFile = (e: any) => {
+    if (e.target.value.length === 0 || e.target.files.length === 0) {
+      return
+    }
+
+    const { files } = e.target;
+    if (files) {
+      dispatch(
+        counterSlice.actions.addTask({
+          workId: props.workId,
+          task: {
+            id: getId(tasks),
+            size: getSize(state.size),
+            position: { x: 0, y: 0 },
+            options: {
+              title: files[0].name,
+              hide: false,
+            },
+            props: {
+              type: "img",
+              url: window.URL.createObjectURL(files[0])
+            }
+          }
+        })
+      )
+      doClose();
+    }
+  }
+  const selectImg = (
+    <label className="select_img" htmlFor="select_img">
+      <input
+        id="select_img"
+        type="file"
+        name="photo"
+        onChange={handleChangeFile}
+      />
+      画像
+    </label>
+  )
+
   const mapMenue = state.menus.map((menue) => (
     <li key={"menue_" + menue} onClick={addTask(menue)}>
-      {menue}
+      {menue === "画像" && selectImg}
+      {menue !== "画像" && menue}
     </li>
   ));
 
@@ -184,7 +253,10 @@ const Component: React.FC<Props> = (props) => {
             createTask()
           }} />;
       case "corse":
-        return <SelectWork isAnnunce={state.isAnnounce} courseId={state.courseId} onSubmit={addAnnounce} />
+        if (state.isAnnounce) {
+          return <SelectWork isAnnunce={state.isAnnounce} courseId={state.courseId} onSubmit={addAnnounce} />
+        }
+        return <SelectClassMaterial courseId={state.courseId} onSubmit={addCourseWorkMaterial} />  
       default:
         return <ul>{mapMenue}</ul>;
     }
@@ -208,9 +280,7 @@ const Component: React.FC<Props> = (props) => {
         }
       })
     )
-
     doClose();
-
   }
 
   const handleChangePrompt = () => {

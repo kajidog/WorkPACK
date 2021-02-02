@@ -161,7 +161,7 @@ export const fileS = (auth: OAuth2Client,
 
 export const getAnnouncement = (auth: any, option: any, nest?: boolean): Promise<{ announcements: classroom_v1.Schema$Announcement[], pageToken: any } | false> => {
     const classroom = google.classroom({ version: "v1", auth })
-    return classroom.courses.announcements.list({ ...option, pageSize: 10, }).then((res) => {
+    return classroom.courses.announcements.list({ ...option, pageSize: 30, }).then((res) => {
         if (!res.data.announcements) {
             return false
         }
@@ -175,9 +175,9 @@ export const getAnnouncement = (auth: any, option: any, nest?: boolean): Promise
     })
 }
 
-export const getCourseWorkMaterials = (auth: OAuth2Client, courseId: string, pageToken: string, nest: boolean): Promise<false | any> => {
+export const getCourseWorkMaterials = (auth: OAuth2Client, option: any, nest?: boolean): Promise<false | any> => {
     const classroom = google.classroom({ version: "v1", auth })
-    return classroom.courses.courseWorkMaterials.list({ courseId, pageSize: 10, pageToken }).then((res) => {
+    return classroom.courses.courseWorkMaterials.list({ ...option, pageSize: 30, }).then((res) => {
         if (!res.data.courseWorkMaterial) {
             return false
         }
@@ -187,6 +187,6 @@ export const getCourseWorkMaterials = (auth: OAuth2Client, courseId: string, pag
         if (nest) {
             return false
         }
-        return await getCourseWorkMaterials(await getAuth(), courseId, pageToken, true)
+        return await getCourseWorkMaterials(await getAuth(), option, true)
     })
 }

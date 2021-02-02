@@ -13,7 +13,7 @@ const Component: React.FC<Props> = (props) => {
   };
   return (
     <Styled>
-      <button onClick={handleClick("toggle")}>ウィンド追加</button>
+      <button onClick={handleClick("toggle")}>アイテム追加</button>
     </Styled>
   );
 };

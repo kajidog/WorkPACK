@@ -2,7 +2,6 @@ import React from "react";
 import Layout from "../components/Layout";
 import Board from "../components/Classroom/CourseList";
 import clice from "../store/user";
-import taskClice from "../store/tasks";
 import electron from "electron";
 import { useDispatch } from "react-redux";
 import styled, { css } from "styled-components"
@@ -30,10 +29,10 @@ const IndexPage = () => {
       }
     }
     electron.ipcRenderer.on("update_user", ado);
-    const tasks = electron.ipcRenderer.sendSync("get_tasks")
-    if (tasks) {
-      dispatch(taskClice.actions.setAll(tasks))
-    }
+    //const tasks = electron.ipcRenderer.sendSync("get_tasks")
+    //if (tasks) {
+    //  dispatch(taskClice.actions.setAll(tasks))
+    //}
     return () => {
       electron.ipcRenderer.removeListener("update_user", ado);
     };
@@ -59,6 +58,12 @@ const IndexPage = () => {
 
 const Style = styled.div<{ toggle: boolean }>`
 ${props => css`
+position: fixed;
+  top:0;
+  left:0;
+  width: 100vw;
+  height:100vh;
+  overflow:scroll;
 .free_wrap{
   position: fixed;
   top: 0;

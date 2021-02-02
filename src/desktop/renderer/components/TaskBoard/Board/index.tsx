@@ -7,6 +7,7 @@ import counterSlice from "../../../store/tasks";
 import { useTask } from "../../../store/tasks/selector";
 import { useDispatch } from "react-redux";
 import { Task, Position, Size, } from "../../../store/tasks";
+import { ipcRenderer } from "electron";
 type Props = {
   className?: string;
   workId: string;
@@ -50,6 +51,16 @@ const Component: React.FC<Props> = (props) => {
     position: { x: 0, y: 0 },
     type: "full"
   }); // 移動前の情報
+
+  React.useEffect(() => {
+    if (info.length) {
+      return
+    }
+    const tasks: Task[] | undefined = ipcRenderer.sendSync("get_tasks", props.workId)
+    if (tasks) {
+      changeInfo(tasks)
+    }
+  }, [props.workId])
 
   const changeInfo = (nextInfo: Task[]) => {
     setBordSize(assets.getBordWidth(nextInfo, document.body.offsetWidth, document.body.offsetHeight));
