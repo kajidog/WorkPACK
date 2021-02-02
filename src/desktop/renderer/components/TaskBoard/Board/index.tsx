@@ -127,7 +127,7 @@ const Component: React.FC<Props> = (props) => {
   }
   return (
     <Board {...bordSize} onMouseUp={handleMouseUp} resize={isResize ? resizeTarget.type : undefined}>
-      {assets.Math(mathProps)}
+      {assets.MathP(mathProps)}
       {info &&
         assets.mapInfo(info, {
           moveStart: moveStart,

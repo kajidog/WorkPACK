@@ -96,7 +96,7 @@ export const setInfoData = (
 }
 
 export type MathProps = Omit<MathProps1, 'position'> & { size: Size }
-export const Math = (props: MathProps) =>
+export const MathP = (props: MathProps) =>
   Array(props.size.height)
     .fill(0)
     .map((_, y) =>
@@ -116,8 +116,8 @@ export const getBordWidth = (info: Task[], width: number, height: number) => {
     width: 0,
     height: 0,
   }
-  const MIN_MATH_WIDTH = width / WIDTH
-  const MIN_MATH_HEIGHT = height / HEIGHT
+  const MIN_MATH_WIDTH = Math.ceil(width / WIDTH)
+  const MIN_MATH_HEIGHT = Math.ceil(height / HEIGHT)
 
   info.forEach((item) => {
     const width = item.position.x + item.size.width
