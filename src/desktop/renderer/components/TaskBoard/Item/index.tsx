@@ -15,6 +15,7 @@ export type Props = {
   onClose: (id: number) => void;
   onHide: (id: number) => void;
   onResizeStart: (target: ResizeTarget) => void;
+  changeTitle: (id: number, nextTitle: string) => void
 };
 
 const Component: React.FC<Props> = (props) => {
@@ -55,9 +56,11 @@ const Component: React.FC<Props> = (props) => {
       <button onMouseDown={startResize("top")} className="resize_top"></button>
       <button onMouseDown={startResize("bottom")} className="resize_bottom"></button>
       <button onMouseDown={startResize("right")} className="resize_right"></button>
-
   </>
-)
+  )
+  const changeTitle = (title: string) => {
+    props.changeTitle(id, title)
+  }
   return (
     <Style
       hide={props.options.hide}
@@ -67,6 +70,7 @@ const Component: React.FC<Props> = (props) => {
       <div>
         <div className="wrap_item_header" onMouseDown={Start}>
           <Header
+            changeTitle={changeTitle}
             title={props.options?.title}
             buttonClicked={handleHeaderClick}
           />

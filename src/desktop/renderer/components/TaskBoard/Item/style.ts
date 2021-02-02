@@ -162,6 +162,8 @@ export const Header = styled.div`
         font-size: .7rem;
         overflow-x: scroll;
         user-select:none;
+        min-width: 2rem;
+        min-height: 65%;
     }
 `
 

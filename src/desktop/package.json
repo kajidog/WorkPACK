@@ -1,9 +1,10 @@
 {
-  "name": "with-electron-typescript",
+  "name": "eucher",
   "version": "1.0.0",
   "license": "MIT",
   "main": "main/index.js",
   "productName": "WorkPACK",
+  "author": "eucher",
   "scripts": {
     "clean": "rimraf dist main renderer/out renderer/.next",
     "dev": "npm run build-electron && electron .",

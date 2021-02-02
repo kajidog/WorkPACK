@@ -201,3 +201,13 @@ export const getCardPosition = (next: Position, target: ResizeTarget & { orgin: 
   y < 0 && (y = 0)
   return { x, y }
 }
+
+export const changeTitle = (id: number, title: string, tasks: Task[]) => {
+  const next: Task[] = []
+  tasks.forEach(task => {
+    if (task.id === id) {
+      next.push({ ...task, options: { ...task.options, title } })
+    } else next.push(task)
+  })
+  return next
+}

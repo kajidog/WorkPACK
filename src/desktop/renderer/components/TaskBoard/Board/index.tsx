@@ -121,13 +121,17 @@ const Component: React.FC<Props> = (props) => {
     onMouseUp: moveEnd,
     focus: isMoved || isResize ? "true" : "false",
   };
-
+  const changeTitle = (id: number, title: string) => {
+    setInfo(assets.changeTitle(id, title, info))
+  
+  }
   return (
     <Board {...bordSize} onMouseUp={handleMouseUp} resize={isResize ? resizeTarget.type : undefined}>
       {assets.Math(mathProps)}
       {info &&
         assets.mapInfo(info, {
           moveStart: moveStart,
+          changeTitle: changeTitle,
           onClose: deleteInfoEvent,
           onHide: toggleHideInfoEvent,
           onResizeStart: (target) => {

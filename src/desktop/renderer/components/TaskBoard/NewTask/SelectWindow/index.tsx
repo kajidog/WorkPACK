@@ -94,10 +94,7 @@ const Component: React.FC<Props> = (props) => {
               },
               props: {
                 type: "todo",
-                todo: [{
-                  done: false,
-                  title: "jorjgr"
-                }]
+                todo: []
               }
             }
           })
@@ -228,7 +225,7 @@ const Component: React.FC<Props> = (props) => {
           <History active={{ redo: false, undo: state.display === "window" }} onUndo={changeHistory} />
           <SizeSelect select={state.size} onChange={handleSizeChange} />
         </div>
-        {prompt && <Prompt onSubmit={addIframe} onClose={handleChangePrompt} />}
+        {prompt && <Prompt title="URLを入力してください" onSubmit={addIframe} onClose={handleChangePrompt} />}
 
       </div>
     </div>

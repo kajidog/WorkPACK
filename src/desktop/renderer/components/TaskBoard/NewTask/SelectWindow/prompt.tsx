@@ -6,10 +6,12 @@ import { stopPropagation } from "../../../../utils"
 type Props = {
     onSubmit: (wrod: string) => void
     onClose: () => void
+    title: string
+    value?: string
 }
 
 const Component: React.FC<Props> = (props) => {
-    const [word, setWord] = React.useState("")
+    const [word, setWord] = React.useState(props.value || "")
     const handleSubmit = (e: any) => {
         e.preventDefault();
         if (!word.length) {
@@ -23,9 +25,11 @@ const Component: React.FC<Props> = (props) => {
     return <Style onClick={props.onClose}>
         <div onClick={stopPropagation} >
             <form onSubmit={handleSubmit} >
-                <p> URLを入力してください</p>
-                <input autoFocus type="text" value={word} onChange={handleChange} />
-                <button type="submit">OK</button>
+                <p>{props.title}</p>
+                <div>               
+                     <input autoFocus type="text" value={word} onChange={handleChange} />
+                    <button type="submit">OK</button>
+                </div>
             </form>
         </div>
     </Style>
@@ -39,6 +43,7 @@ width: 100vw;
 height: 100vh;
 ${flexCenter}
 background-color: rgba(2, 2, 2, 0.5);
+z-index: 5000;
 &>div{
     
     border: 1px solid;
@@ -46,6 +51,7 @@ background-color: rgba(2, 2, 2, 0.5);
     background-color: #fff;
     color: #455a64;
     border-radius: .5rem;
+
     p{
         margin: 0 0 .5rem;
     }
@@ -68,6 +74,9 @@ background-color: rgba(2, 2, 2, 0.5);
         border-radius: 0 .2rem .2rem 0;
         background-color: #455a64;
         color: #fff;
+    }
+    form>div{
+        ${flexCenter}
     }
 }
 `
