@@ -50,7 +50,6 @@ const IndexPage = () => {
       <Style toggle={toggle}>
         <div className="free"><FreeBorad /></div>
         <div className="board"><Board /></div>
-
         {selectButton}
       </Style>
     </Layout>
@@ -72,11 +71,10 @@ position: fixed;
   left: 0;
 }
 &>.free{
-  ${!props.toggle && css`transform: translateX(100vw)`}
-
+  transform: translateX(${props.toggle ? "0" : "100vw"});
 }
 &>.board{
-  ${props.toggle && css`transform: translateX(100vw)`}
+  transform: translateX(${!props.toggle ? "0" : "100vw"});
 }
 
 .select_group{
