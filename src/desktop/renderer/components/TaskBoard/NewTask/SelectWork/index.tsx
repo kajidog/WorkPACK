@@ -18,7 +18,6 @@ const filerWord = (target: any[], word: string) => {
   return result
 }
 
-
 const Component: React.FC<Props> = (props) => {
   const [searchWord, setSearchWord] = React.useState("")
   const [works, setWorks] = React.useState<Announce[]>([])
@@ -46,12 +45,14 @@ const Component: React.FC<Props> = (props) => {
 
   React.useEffect(() => {
     getWork();
+    let works: Announce[] = []
+    let count = 0;
     function set(_: any, args: any) {
       if (args[0]) {
-        alert(works.length + "," + args[0].length)
-        setWorks([...works, ...args[0]])
+        works = [...works, ...args[0]]
+        setWorks(works)
       }
-      if (args[1]) {
+      if (args[1] && count++ < 5) {
         getWork(args[1])
         return
       }

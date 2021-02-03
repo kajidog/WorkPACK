@@ -45,12 +45,14 @@ const Component: React.FC<Props> = (props) => {
 
   React.useEffect(() => {
     getWork()
-    function set(event: any, args: any) {
-      console.log(event);
+    let works: courseWorkMaterial[] = []
+    let count = 0;
+    function set(_: any, args: any) {
       if (args[0]) {
-        setWorks([...works, ...args[0]])
+        works = [...works, ...args[0]]
+        setWorks(works)
       }
-      if (args[1]) {
+      if (args[1] && count++ < 5) {
         getWork(args[1])
         return
       }
