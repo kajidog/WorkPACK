@@ -7,6 +7,7 @@ const Style = styled.div`
     margin: .5rem;
   font-size: .9rem;
 }
+
 li{
   display: flex;
   align-items: center;
@@ -43,7 +44,7 @@ li{
     }
   }
   .add_item:hover{
-    transition: .5s;
+    transition: .3s;
     transform: rotate(90deg);
   }
 

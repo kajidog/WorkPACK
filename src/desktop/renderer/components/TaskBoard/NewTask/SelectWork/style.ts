@@ -35,6 +35,9 @@ h2{
 
   }
 }
+ul{
+  display: block;
+}
 li{
   display: flex;
   align-items: center;
@@ -59,8 +62,6 @@ li{
     }
 
   &:hover{
-    color: red;
-
     & .next_dep{
         display: block;
         transform: translateX(5px);
@@ -85,7 +86,6 @@ li{
   .add_item:hover{
     transition: .5s;
     transform: rotate(90deg);
-    color: red;
   }
 
 }

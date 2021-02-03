@@ -35,6 +35,9 @@ h2{
 
   }
 }
+ul{
+  display: block;
+}
 li{
   display: flex;
   flex-direction: column;

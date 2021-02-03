@@ -28,7 +28,6 @@ app.on("ready", async () => {
       preload: join(__dirname, "preload.js"),
     },
     darkTheme: true,
-
   });
 
   const url = isDev
@@ -40,7 +39,6 @@ app.on("ready", async () => {
     });
 
   windows[MAIN_WINDOW_ID].loadURL(url);
-  windows[MAIN_WINDOW_ID].webContents.openDevTools();
 });
 
 // Quit the app once all windows are closed

@@ -2,7 +2,7 @@ import React from "react";
 import styled from "./style";
 import History from "./History";
 import SizeSelect, { AddSize, getSize } from "./SizeSelect";
-import { getHTML, stopPropagation } from "../../../../utils";
+import { getHTML, stopPropagation, toBlob } from "../../../../utils";
 import counterSlice, { Task } from "../../../../store/tasks";
 import { useTask } from "../../../../store/tasks/selector";
 import SelectCourse from "../SelectCourse";
@@ -11,6 +11,12 @@ import { useDispatch } from "react-redux";
 import { Announce, courseWorkMaterial } from "../../../../store/classroom";
 import SelectClassMaterial from "../SelectClassMaterial"
 import Prompt from "./prompt"
+import ImageIcon from '@material-ui/icons/WallpaperOutlined';
+import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
+import NoteIcon from '@material-ui/icons/ImportContactsOutlined';
+import LinkIcon from '@material-ui/icons/Link';
+import InfoIcon from '@material-ui/icons/InfoOutlined';
+import WorkOutlineIcon from '@material-ui/icons/WorkOutline';
 
 export type Props = {
   onClose: (type: string) => void;
@@ -18,7 +24,7 @@ export type Props = {
 };
 
 type State = {
-  menus: string[];
+  menus: { batch: React.ReactNode, title: string }[];
   size: AddSize;
   display: "corse" | "window" | "courses" | "material";
   courseId: string;
@@ -39,14 +45,25 @@ const Component: React.FC<Props> = (props) => {
   const [prompt, setPrompt] = React.useState(false)
 
   const [state, setState] = React.useState<State>({
-    menus: [
-      "クラスルームアナウンス",
-      "クラスルーム課題資料",
-      "メモ",
-      "URL",
-      "画像",
-      "GoogleDrive",
-      "ToDo"
+    menus: [{
+      batch: <InfoIcon />,
+      title: "アナウンス"
+    }, {
+        batch: <WorkOutlineIcon />,
+        title: "課題資料"
+      }, {
+        batch: <NoteIcon />,
+        title: "メモ"
+      }, {
+        batch: <LinkIcon />,
+        title: "URL"
+      }, {
+        batch: <div></div>,
+        title: "画像"
+      }, {
+        batch: <FormatListBulletedIcon />,
+        title: "ToDo"
+      }
     ],
     size: "3:4",
     display: "window",
@@ -65,17 +82,17 @@ const Component: React.FC<Props> = (props) => {
   const handleChangeWindow = (
     display: "corse" | "window" | "courses" | "material",
     courseId: string = state.courseId,
-    type: boolean = true
+    type: boolean = state.isAnnounce
   ) => {
     setState({ ...state, display, courseId, isAnnounce: type });
   };
 
   const addTask = (id: string) => async () => {
     switch (id) {
-      case "クラスルームアナウンス":
-        handleChangeWindow("courses");
+      case "アナウンス":
+        handleChangeWindow("courses", state.courseId, true);
         break;
-      case "クラスルーム課題資料":
+      case "課題資料":
         handleChangeWindow("courses", state.courseId, false);
         break;
       case "URL":
@@ -181,7 +198,7 @@ const Component: React.FC<Props> = (props) => {
           size: getSize(state.size),
           position: { x: 0, y: 0 },
           options: {
-            title: "課題資料",
+            title: material.title,
             hide: false,
           },
           props: {
@@ -194,50 +211,56 @@ const Component: React.FC<Props> = (props) => {
     )
     doClose();
   }
-  const handleChangeFile = (e: any) => {
+  const handleChangeFile = async (e: any) => {
     if (e.target.value.length === 0 || e.target.files.length === 0) {
       return
     }
 
     const { files } = e.target;
     if (files) {
-      dispatch(
-        counterSlice.actions.addTask({
-          workId: props.workId,
-          task: {
-            id: getId(tasks),
-            size: getSize(state.size),
-            position: { x: 0, y: 0 },
-            options: {
-              title: files[0].name,
-              hide: false,
-            },
-            props: {
-              type: "img",
-              url: window.URL.createObjectURL(files[0])
+      toBlob(files[0], (blob) => {
+        dispatch(
+          counterSlice.actions.addTask({
+            workId: props.workId,
+            task: {
+              id: getId(tasks),
+              size: getSize(state.size),
+              position: { x: 0, y: 0 },
+              options: {
+                title: files[0].name,
+                hide: false,
+              },
+              props: {
+                type: "img",
+                img: blob
+              }
             }
-          }
-        })
-      )
-      doClose();
+          })
+        )
+        doClose();
+      })
+
+
     }
   }
   const selectImg = (
     <label className="select_img" htmlFor="select_img">
+      {<ImageIcon />}
       <input
         id="select_img"
         type="file"
         name="photo"
         onChange={handleChangeFile}
       />
-      画像
+      <span>画像</span>
+
     </label>
   )
 
   const mapMenue = state.menus.map((menue) => (
-    <li key={"menue_" + menue} onClick={addTask(menue)}>
-      {menue === "画像" && selectImg}
-      {menue !== "画像" && menue}
+    <li key={"menue_" + menue} onClick={addTask(menue.title)}>
+      {menue.title === "画像" && selectImg}
+      {menue.title !== "画像" && <div>{menue.batch}<span>{menue.title}</span></div>}
     </li>
   ));
 

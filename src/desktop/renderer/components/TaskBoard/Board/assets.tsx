@@ -31,14 +31,26 @@ export const mapInfo = (
           case "workMaterial":
             next.push({ ...item, props: { ...item.props, material: { ...item.props.material, description: word }, html: getHTML(word) } })
             break;
-          case "img":
-            next.push({ ...item, props: { ...item.props, url: word } })
-            break;
         }
       } else next.push(item)
     })
     onChange(next)
   }
+
+  const changeImg = (id: number) => (img: any) => {
+    const next: Task[] = []
+    information.forEach((item) => {
+      if (item.id === id) {
+        switch (item.props.type) {
+
+    case "img":
+            next.push({ ...item, props: { ...item.props, img } })
+    }
+  } else next.push(item)
+})
+onChange(next)
+}
+
   const changeTodo = (id: number) => (todo: todo) => {
     const next: Task[] = []
     information.forEach((item) => {
@@ -68,7 +80,7 @@ export const mapInfo = (
         case 'todo':
           return <Todo todo={info.props.todo} onChange={changeTodo(info.id)} />
         case 'img':
-          return <Img url={info.props.url} onChange={changeMemo(info.id)} id={info.id} />
+          return <Img img={info.props.img} onChange={changeImg(info.id)} id={info.id} />
       }
     }
     return (

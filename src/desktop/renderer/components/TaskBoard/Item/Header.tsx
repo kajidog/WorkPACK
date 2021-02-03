@@ -3,8 +3,6 @@ import CloseIcon from "@material-ui/icons/Close";
 import RemoveIcon from "@material-ui/icons/Remove";
 import { stopPropagation } from "../../../utils";
 import React from "react"
-import BorderColorIcon from '@material-ui/icons/BorderColor';
-import Canvas from "../../Canvas"
 import Prompt from "../NewTask/SelectWindow/prompt"
 
 
@@ -16,7 +14,6 @@ export type Props = {
 };
 const Component: React.FC<Props> = (props) => {
   const [prompt, setPrompt] = React.useState(false)
-  const [canvasToggle, setCanvasToggle] = React.useState(false)
 
   const handleClick = (type: HeaderButton) => (
     e: React.MouseEvent<HTMLElement, MouseEvent>
@@ -26,9 +23,7 @@ const Component: React.FC<Props> = (props) => {
       props.buttonClicked(type);
     }
   };
-  const changeToggle = () => {
-    setCanvasToggle(!canvasToggle)
-  }
+
   const submit = (title: string) => {
     handleChangePrompt()
     props.changeTitle(title)
@@ -53,16 +48,7 @@ const Component: React.FC<Props> = (props) => {
       >
         <RemoveIcon fontSize="inherit" />
       </div>
-      <div
-        className="hide button"
-        onMouseDown={stopPropagation}
-        onClick={changeToggle}
-      >
-        <BorderColorIcon fontSize="inherit" />
-      </div>
       <div className="title" onMouseDown={stopPropagation} onDoubleClick={handleChangePrompt} >{props.title}</div>
-
-      {canvasToggle && <div onMouseDown={stopPropagation} className="canvas" > <Canvas /></div>}
       {prompt && <div onMouseDown={stopPropagation} ><Prompt title="タイトルを入力" value={props.title} onSubmit={submit} onClose={handleChangePrompt} /></div>}
 
     </Header>

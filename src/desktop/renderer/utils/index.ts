@@ -1,5 +1,5 @@
 import marked from "marked";
-
+import loadImage from 'blueimp-load-image';
 export const AddBrank = (html: string) => {
 
   let count = 0
@@ -23,4 +23,16 @@ export const stopPropagation = (
   e: React.MouseEvent<HTMLElement, MouseEvent>
 ) => {
   e.stopPropagation();
+};
+
+
+export const toBlob = async (file: any, cb: (res: any) => void) => {
+  let reader = new FileReader();
+  reader.readAsDataURL(file);
+  reader.onload = function () {
+    cb(reader.result)
+  };
+  reader.onerror = function (error) {
+    console.log('Error: ', error);
+  };
 };

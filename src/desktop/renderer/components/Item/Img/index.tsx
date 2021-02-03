@@ -1,9 +1,10 @@
 import React from "react"
+import { toBlob } from "../../../utils"
 import { Style } from "./style"
 export type Props = {
     id: number
-    url: string
-    onChange: (url: string) => void
+    img: any
+    onChange: (img: any) => void
 }
 
 const Component: React.FC<Props> = (props) => {
@@ -15,12 +16,14 @@ const Component: React.FC<Props> = (props) => {
         const { files } = e.target;
 
         if (files) {
-            props.onChange(window.URL.createObjectURL(files[0]))
+            toBlob(files[0], props.onChange)
+
         }
     };
+
     return (
         <Style htmlFor={"photo_" + props.id} >
-            <img src={props.url} alt="preview" />
+            <img src={props.img} alt="preview" />
             <input
                 id={"photo_" + props.id}
                 type="file"

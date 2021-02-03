@@ -50,7 +50,7 @@ export type MarkDownType = {
 
 export type ImgType = {
   type: "img";
-  url: string;
+  img: any;
 }
 
 export type ToDoType = {

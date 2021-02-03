@@ -27,16 +27,46 @@ ul{
     padding: 0;
     margin: 0;
 }
+.add_content>ul{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
 li{
+    padding: 1rem;
+    flex: 0 0 12rem;
     transition: .3s;
     width: 100%;
-    padding: 1rem;
     background-color: #fff;
     color: #000;
     cursor: pointer;
     border-bottom: 1px solid;
     &:last-child{
         border: none;
+    }
+    :hover{
+        background-color: #555;
+        color: #fff;
+    }
+}
+.add_content>ul>li{
+    padding: 0rem;
+    margin: 1rem;
+    flex: 0 0 12rem;
+    height: 12rem;
+    transition: .3s;
+    width: 100%;
+    background-color: #fff;
+    color: #000;
+    cursor: pointer;
+    border: none;
+    border-radius: .25rem;
+    div{
+        height: 100%;
+        ${flexCenter}
+        &>*{
+            margin: .2rem;
+        }
     }
     :hover{
         background-color: #555;
@@ -69,9 +99,15 @@ li{
     display: block;
     width: 100%;
     height: 100%;
+    cursor: pointer;
+    ${flexCenter}
+
     &>input{
         display: none;
     }
+    &>*{
+            margin: .2rem;
+        }
 }
 
 `
