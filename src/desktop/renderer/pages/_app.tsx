@@ -3,6 +3,7 @@ import { AppProps } from "next/app";
 import { Provider } from "react-redux";
 import createStore from "../store/createStore";
 import "easymde/dist/easymde.min.css";
+import "../styles/main.css";
 import { ThemeProvider as StyledComponentsThemeProvider } from "styled-components";
 import {
   ThemeProvider as MaterialUIThemeProvider,

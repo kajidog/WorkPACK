@@ -63,17 +63,28 @@ position: fixed;
   left:0;
   width: 100vw;
   height:100vh;
-  overflow:scroll;
-  overflow-x: hidden;
 .free_wrap{
   position: fixed;
   top: 0;
   left: 0;
 }
 &>.free{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height:100vh;
   transform: translateX(${props.toggle ? "0" : "100vw"});
+  overflow:scroll;
 }
 &>.board{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height:100vh;
+  overflow: hidden;
+  overflow-y:scroll;
   transform: translateX(${!props.toggle ? "0" : "100vw"});
 }
 
