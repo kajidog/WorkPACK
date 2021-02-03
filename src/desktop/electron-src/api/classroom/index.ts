@@ -40,16 +40,12 @@ export const getCourse = (auth: any, nest?: boolean) => {
     })
 }
 function getJaData(year: number, month: number, day: number, hours: number, minutes: number,) {
-    // 基本的な、日付の減算
-    var dt = new Date(year, month, day, hours, minutes, 0);
-
-    //12時間前
+    let dt = new Date(year, month - 1, day, hours, minutes, 0);
     dt.setHours(dt.getHours() + 9);
-
     return {
         dueDate: {
             year: dt.getFullYear(),
-            month: dt.getMonth(),
+            month: dt.getMonth() + 1,
             day: dt.getDate(),
         }, dueTime: {
             hours: dt.getHours(),
