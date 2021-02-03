@@ -3,7 +3,7 @@ import React from "react";
 import { Size } from "../../../../store/tasks";
 
 export type AddSize = "7:4" | "3:4" | "5:7";
-const Sizes: AddSize[] = ["5:7", "3:4", "7:4"];
+const Sizes: AddSize[] = ["3:4", "5:7", "7:4"];
 export const getSize = (size: AddSize): Size => {
   switch (size) {
     case "5:7":
