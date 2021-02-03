@@ -28,7 +28,7 @@ const Component: React.FC<Props> = (props) => {
             return <li key={material.form.form.id}><a target="_brank" href={material.form.form.formUrl} ><img src={material.form.form.thumbnailUrl} /><span>{material.driveFile.driveFile.title}</span></a></li>
         }
         if (material.link) {
-            return <li key={material.link.link.title}><a target="_brank" href={material.link.link.url} ><img src={material.link.link.thumbnailUrl} /><span>{material.link.link.title}</span></a></li>
+            return <li key={material.link.title}><a target="_brank" href={material.link.url} ><img src={material.link.thumbnailUrl} /><span>{material.link.title}</span></a></li>
         }
         return null
     })

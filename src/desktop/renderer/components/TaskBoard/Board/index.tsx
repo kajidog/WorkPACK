@@ -25,6 +25,7 @@ export type ResizeTarget = {
 const Component: React.FC<Props> = (props) => {
   const info = useTask(props.workId).tasks;
   const [beforeLength, setBeforeLength] = React.useState(-1)
+  const [beforeId, setBeforeId] = React.useState("")
   const dispatch = useDispatch();
   const setInfo = (next: Task[]) => {
     dispatch(counterSlice.actions.setTasks({ workId: props.workId, tasks: next }));
@@ -64,7 +65,7 @@ const Component: React.FC<Props> = (props) => {
   }, [props.workId])
 
   React.useEffect(() => {
-    if (info.length > beforeLength && beforeLength !== -1) {
+    if (info.length > beforeLength && beforeLength !== -1 && beforeId === props.workId) {
       const target = info[info.length - 1]
       setMoved(true);
 
@@ -76,10 +77,12 @@ const Component: React.FC<Props> = (props) => {
         orgin: target.position
       });
 
-    }
+    } else {
 
-    setBeforeLength(info.length)
-  }, [info.length])
+    }
+    setBeforeId(props.workId)
+    setBeforeLength(beforeId === props.workId ? info.length : -1)
+  }, [info.length, props.workId])
 
   const changeInfo = (nextInfo: Task[]) => {
     setBordSize(assets.getBordWidth(nextInfo, document.body.offsetWidth, document.body.offsetHeight));

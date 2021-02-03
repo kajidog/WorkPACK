@@ -65,7 +65,7 @@ const Component: React.FC<Props> = (props) => {
         title: "ToDo"
       }
     ],
-    size: "3:4",
+    size: "6:3",
     display: "window",
     courseId: "",
     isAnnounce: true

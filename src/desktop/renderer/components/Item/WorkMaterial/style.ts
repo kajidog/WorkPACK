@@ -29,8 +29,10 @@ export const Style = styled.div`
         padding: 0;
         list-style: none;
         display: flex;
+        flex-direction: column;
         justify-content: center;
         li{
+            margin: 1rem 0 0;
             flex: 1 1 100%;
             a{  
                 display: flex;
