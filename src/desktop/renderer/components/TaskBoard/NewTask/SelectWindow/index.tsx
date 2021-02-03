@@ -50,7 +50,7 @@ const Component: React.FC<Props> = (props) => {
       title: "アナウンス"
     }, {
         batch: <WorkOutlineIcon />,
-        title: "課題資料"
+      title: "授業資料"
       }, {
         batch: <NoteIcon />,
         title: "メモ"
@@ -92,7 +92,7 @@ const Component: React.FC<Props> = (props) => {
       case "アナウンス":
         handleChangeWindow("courses", state.courseId, true);
         break;
-      case "課題資料":
+      case "授業資料":
         handleChangeWindow("courses", state.courseId, false);
         break;
       case "URL":
