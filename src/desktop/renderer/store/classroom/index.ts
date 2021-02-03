@@ -105,7 +105,13 @@ const slice = createSlice({
     }),
     setWorks: (state, action: PayloadAction<{ id: string; works: Work[] }>) => {
       let works = { ...state.works };
-      works[action.payload.id] = action.payload.works;
+      let next: Work[] = []
+      let emp: Work[] = []
+      action.payload.works.forEach((work) => {
+        work.dueDate ? next.push(work) : emp.push(work)
+      })
+      next = [...next, ...emp]
+      works[action.payload.id] = next;
       return {
         ...state,
         works,

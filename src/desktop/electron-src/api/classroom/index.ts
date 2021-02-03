@@ -9,7 +9,7 @@ export const getCourse = (auth: any, nest?: boolean) => {
             const classroom = google.classroom({ version: "v1", auth });
 
             classroom.courses.list({
-                courseStates: ["ACTIVE",]
+                courseStates: ["ACTIVE"]
             }, async (err, res) => {
                 if (err || !res) {
                     if (nest) {
@@ -39,6 +39,25 @@ export const getCourse = (auth: any, nest?: boolean) => {
         }
     })
 }
+function getJaData(year: number, month: number, day: number, hours: number, minutes: number,) {
+    // 基本的な、日付の減算
+    var dt = new Date(year, month, day, hours, minutes, 0);
+
+    //12時間前
+    dt.setHours(dt.getHours() + 9);
+
+    return {
+        dueDate: {
+            year: dt.getFullYear(),
+            month: dt.getMonth(),
+            day: dt.getDate(),
+        }, dueTime: {
+            hours: dt.getHours(),
+            minutes,
+            seconds: 0
+        }
+    }
+}
 
 export const getWorks = (courseId: string, auth: any, pageToken?: string, nest?: boolean) => {
     return new Promise((resolve, reject) => {
@@ -55,12 +74,21 @@ export const getWorks = (courseId: string, auth: any, pageToken?: string, nest?:
                     resolve(list)
                     return
                 }
+
+
                 const works = res.data.courseWork;
                 if (works && works.length) {
                     let workA = []
                     for (const work of works) {
                         if (!work.id) {
                             continue
+                        }
+                        if (work.dueDate && work.dueTime) {
+                            const { year, month, day } = work.dueDate
+                            const { hours, minutes } = work.dueTime
+                            const jaDate = getJaData(year || 0, month || 0, day || 0, hours || 0, minutes || 0)
+                            work.dueDate = jaDate.dueDate
+                            work.dueTime = jaDate.dueTime
                         }
                         const state = await getWorkState(classroom, courseId, work.id)
                         if (!state) {

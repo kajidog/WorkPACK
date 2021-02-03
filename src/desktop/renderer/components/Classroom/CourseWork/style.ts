@@ -7,13 +7,17 @@ const Style = styled.div`
  }
   & .work_card {
     cursor: pointer;
-    padding: 1rem;
     border-radius: 0.5rem;
     box-shadow: 2px 2px 5px #00000033;
     position: relative;
     height: 100%;
-    overflow: hidden;
     background-color: #fff;
+    div{
+      padding: 1rem;
+      height: 100%;
+      width: 100%;
+      overflow-y: scroll;
+    }
     h2 {
       margin-top: 0;
       color: #455a64;

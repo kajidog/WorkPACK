@@ -3,7 +3,7 @@ import { getWorks, mapWorks } from "./assets";
 import { useUserState } from "../../../store/user/selector";
 import { useWorks } from "../../../store/classroom/selector";
 import { ipcRenderer } from "electron";
-import slice, { } from "../../../store/classroom";
+import slice, { Work } from "../../../store/classroom";
 import React from "react";
 import Coffee1 from "./coffe";
 import Coffee from "../../../svg/Coffee";
@@ -23,11 +23,13 @@ const Component: React.FC<Props> = (props) => {
   const [counter, setCounter] = React.useState(0)
   const dispatch = useDispatch()
   React.useEffect(() => {
+    let works: Work[] = []
     function get(_: any, msg: any) {
       setCounter(counter + 1)
       if (msg) {
         if (msg.works) {
-          dispatch(slice.actions.setWorks({ id: props.courseId, works: [...works, ...msg.works] }))
+          works = [...works, ...msg.works]
+          dispatch(slice.actions.setWorks({ id: props.courseId, works }))
         }
         if (!msg.length) {
           props.onClose(props.courseId)
