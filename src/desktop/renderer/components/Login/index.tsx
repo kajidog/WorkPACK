@@ -115,8 +115,7 @@ const Component: React.FC<Props> = () => {
   // ログイン失敗
   const filedLoginDom = (
     <div>
-      ログインできませんでした
-      <button onClick={changeUser}>リトライ</button>
+      <button onClick={changeUser}>ログイン</button>
     </div>
   );
 

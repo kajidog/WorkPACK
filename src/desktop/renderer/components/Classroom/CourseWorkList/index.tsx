@@ -11,7 +11,7 @@ import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 export type Props = {
   courseId: string;
-  onClose: (courseId: string) => void
+  onClose: (next: boolean) => void
 };
 
 const Component: React.FC<Props> = (props) => {
@@ -31,19 +31,20 @@ const Component: React.FC<Props> = (props) => {
           works = [...works, ...msg.works]
           dispatch(slice.actions.setWorks({ id: props.courseId, works }))
         }
-        if (!msg.length) {
-          props.onClose(props.courseId)
-        }
+
         if (msg.pageToken && counter < 6) {
           getWorks(setLoading, props.courseId, msg.pageToken)
           return
+        }
+        if (!works.length) {
+          props.onClose(false)
         }
       }
       setLoading(false);
     }
     function bad_get() {
       setLoading(false);
-      props.onClose(props.courseId)
+      props.onClose(false)
     }
     ipcRenderer.on("get_works_" + props.courseId, get);
     ipcRenderer.on("get_works_failed_" + props.courseId, bad_get);
@@ -54,17 +55,14 @@ const Component: React.FC<Props> = (props) => {
   }, []);
   React.useEffect(() => {
     if (auth1 !== auth && !router.query.code) {
+      props.onClose(true)
       setCounter(0)
       dispatch(slice.actions.setWorks({ id: props.courseId, works: [] }))
       getWorks(setLoading, props.courseId);
       setAuth1(auth);
     }
   }, [props.courseId, auth]);
-  React.useEffect(() => {
-    if (loading !== null && !works.length) {
-      props.onClose(props.courseId)
-    }
-  }, [works])
+
   const liadingDom = (
     <div className="loading_work">
       <div>

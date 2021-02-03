@@ -27,7 +27,7 @@ app.on("ready", async () => {
       nodeIntegration: true,
       preload: join(__dirname, "preload.js"),
     },
-    darkTheme: true,
+    darkTheme: true
   });
 
   const url = isDev

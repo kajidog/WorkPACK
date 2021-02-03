@@ -22,6 +22,9 @@ export const Style = styled.div`
 
         }
     }
+    .editor-statusbar{
+        display: none;
+    }
     .EasyMDEContainer{
         height: 100%;
     }

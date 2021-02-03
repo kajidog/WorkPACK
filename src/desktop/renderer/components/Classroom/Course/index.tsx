@@ -1,6 +1,5 @@
 import Style from "./style";
 import { Curse } from "../../../store/classroom";
-import { useWorks } from "../../../store/classroom/selector";
 import CourseWorkList from "../CourseWorkList";
 import React from "react"
 export type Props = {
@@ -10,16 +9,10 @@ export type Props = {
 
 const Component: React.FC<Props> = (props) => {
   const [toggle, setToggle] = React.useState(true)
-  const { works } = useWorks(props.courseId)
-  const handleChange = () => {
-    setToggle(false)
+  const handleChange = (next: boolean) => {
+    setToggle(next)
   }
 
-  React.useEffect(() => {
-
-    setToggle(works.length ? true : false)
-
-  }, [works])
   return (
     <Style toggle={toggle}>
       <ul>
