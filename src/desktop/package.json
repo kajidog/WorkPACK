@@ -74,6 +74,7 @@
   },
   "build": {
     "asar": true,
+    "appId": "com.electron.euchre",
     "files": [
       "main",
       "renderer/out"

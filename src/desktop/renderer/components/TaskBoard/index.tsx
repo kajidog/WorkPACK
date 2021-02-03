@@ -74,7 +74,7 @@ ${props => css`
   .googlepage_button {
     transition: .2s;
     position: fixed;
-    top: 53px;
+    top: 68px;
     right: 0;
     transform:  translate(${props.googleToggle ? "-500px" : "0"});
     &>button{
@@ -102,7 +102,7 @@ ${props => css`
   }
   .googlepage{
         position: fixed;
-        top: 53px;
+        top: 66px;
         right: 5px;
         width: 500px;
         bottom: 5rem;
@@ -117,7 +117,7 @@ ${props => css`
         justify-content: flex-start;
         top: 0;
         left: 0;
-        height: 3rem;
+        height: 3.8rem;
         background-color: #222;
         width: 100vw;
         & > div {
@@ -146,7 +146,7 @@ ${props => css`
     background-color: #fff;
     top: 0;
     left: 0;
-    padding-top: 3rem;
+    padding-top: 3.8rem;
     overflow: scroll;
     height: 100vh;
     width: 100vw;

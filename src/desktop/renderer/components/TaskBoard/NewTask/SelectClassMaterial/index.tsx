@@ -21,7 +21,6 @@ const filerWord = (target: courseWorkMaterial[], word: string) => {
 const Component: React.FC<Props> = (props) => {
   const [searchWord, setSearchWord] = React.useState("")
   const [works, setWorks] = React.useState<courseWorkMaterial[]>([])
-  const [nextToken, setnextToken] = React.useState<string | undefined>(undefined)
   const [loading, setLoading] = React.useState(false)
   const [err, setError] = React.useState(false)
   const { courses } = useCourses();
@@ -33,16 +32,12 @@ const Component: React.FC<Props> = (props) => {
       }
     }
   })
-  const getWork = () => {
-    if (loading) {
-      return
-    }
+  const getWork = (pageToken?: string) => {
     setLoading(true)
     let option: any = {
       courseId: props.courseId,
-
+      pageToken
     }
-    nextToken && (option["pageToken"] = nextToken)
     ipcRenderer.send("get_course_work_materials", option)
   }
 
@@ -55,7 +50,10 @@ const Component: React.FC<Props> = (props) => {
       if (args[0]) {
         setWorks([...works, ...args[0]])
       }
-      setnextToken(args[1])
+      if (args[1]) {
+        getWork(args[1])
+        return
+      }
       setLoading(false)
       setError(false)
     }

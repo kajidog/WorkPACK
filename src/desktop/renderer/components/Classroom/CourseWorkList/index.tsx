@@ -20,13 +20,21 @@ const Component: React.FC<Props> = (props) => {
   const { auth } = useUserState();
   const [auth1, setAuth1] = React.useState(null);
   const { works } = useWorks(props.courseId)
+  const [counter, setCounter] = React.useState(0)
   const dispatch = useDispatch()
   React.useEffect(() => {
     function get(_: any, msg: any) {
+      setCounter(counter + 1)
       if (msg) {
-        dispatch(slice.actions.setWorks({ id: props.courseId, works: msg }))
+        if (msg.works) {
+          dispatch(slice.actions.setWorks({ id: props.courseId, works: [...works, ...msg.works] }))
+        }
         if (!msg.length) {
           props.onClose(props.courseId)
+        }
+        if (msg.pageToken && counter < 6) {
+          getWorks(setLoading, props.courseId, msg.pageToken)
+          return
         }
       }
       setLoading(false);
@@ -44,7 +52,9 @@ const Component: React.FC<Props> = (props) => {
   }, []);
   React.useEffect(() => {
     if (auth1 !== auth && !router.query.code) {
-      getWorks(setLoading, props.courseId, auth);
+      setCounter(0)
+      dispatch(slice.actions.setWorks({ id: props.courseId, works: [] }))
+      getWorks(setLoading, props.courseId);
       setAuth1(auth);
     }
   }, [props.courseId, auth]);
@@ -75,8 +85,8 @@ const Component: React.FC<Props> = (props) => {
   return (
     <Style loading={loading} >
       <div className="map_item">
-        {liadingDom}
         {mapWorks(works, props.courseId)}
+        {liadingDom}
         {!loading && !works.length && empWork}
       </div>
     </Style>

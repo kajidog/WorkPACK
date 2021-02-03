@@ -40,18 +40,18 @@ export const getCourse = (auth: any, nest?: boolean) => {
     })
 }
 
-export const getWorks = (courseId: string, auth: any, nest?: boolean) => {
+export const getWorks = (courseId: string, auth: any, pageToken?: string, nest?: boolean) => {
     return new Promise((resolve, reject) => {
         try {
             const classroom = google.classroom({ version: "v1", auth });
 
-            classroom.courses.courseWork.list({ courseId, pageSize: 10, orderBy: "dueDate asc" }, async (err, res) => {
+            classroom.courses.courseWork.list({ courseId, pageSize: 5, orderBy: "dueDate asc", pageToken }, async (err, res) => {
                 if (err || !res) {
                     if (nest) {
                         reject(err || "404 res")
                         return
                     }
-                    const list = await getWorks(courseId, auth, true)
+                    const list = await getWorks(courseId, auth, pageToken, true)
                     resolve(list)
                     return
                 }
@@ -68,7 +68,7 @@ export const getWorks = (courseId: string, auth: any, nest?: boolean) => {
                         }
                         workA.push({ ...work, ...state })
                     }
-                    resolve(workA)
+                    resolve({ works: workA, pageToken: res.data.nextPageToken })
                     return;
                 } else {
                     reject("404 courses")

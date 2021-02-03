@@ -72,7 +72,10 @@ const Component: React.FC<Props> = (props) => {
       setTarget({
         size: target.size,
         id: target.id,
-        position: target.position,
+        position: {
+          x: (Math.floor(target.size.width / 2) + target.position.x),
+          y: (target.position.y + 1)
+        },
         type: "full",
         orgin: target.position
       });

@@ -21,12 +21,11 @@ const filerWord = (target: any[], word: string) => {
 
 const Component: React.FC<Props> = (props) => {
   const [searchWord, setSearchWord] = React.useState("")
-  const [works, setWorks] = React.useState<any[]>([])
-  const [nextToken, setnextToken] = React.useState(undefined)
+  const [works, setWorks] = React.useState<Announce[]>([])
   const [loading, setLoading] = React.useState(false)
   const [err, setError] = React.useState(false)
   const { courses } = useCourses();
-  const [result, setResult] = React.useState<any[]>([])
+  const [result, setResult] = React.useState<Announce[]>([])
   const [course] = React.useState(() => {
     for (const i of courses) {
       if (i.id === props.courseId) {
@@ -34,30 +33,28 @@ const Component: React.FC<Props> = (props) => {
       }
     }
   })
-  const getWork = () => {
-    if (loading) {
-      return
-    }
+  const getWork = (pageToken?: string) => {
     setLoading(true)
     let option: any = {
       courseId: props.courseId,
-
+      pageToken
     }
-    nextToken && (option["pageToken"] = nextToken)
     ipcRenderer.send("get_work_info", option)
   }
 
 
 
   React.useEffect(() => {
-    getWork()
-
-    function set(event: any, args: any) {
-      console.log(event);
+    getWork();
+    function set(_: any, args: any) {
       if (args[0]) {
+        alert(works.length + "," + args[0].length)
         setWorks([...works, ...args[0]])
       }
-      setnextToken(args[1])
+      if (args[1]) {
+        getWork(args[1])
+        return
+      }
       setLoading(false)
       setError(false)
     }
@@ -73,26 +70,17 @@ const Component: React.FC<Props> = (props) => {
     }
   }, [])
   const handleClick = (id: string) => () => {
-    //   if(props.isAnnunce){
-    //     for(const item of works){
-    //       if(item.id === id){
-    //         dispatch(slice.actions.setAnnnounce({announce: item}))
-    //       }
-    //     }
-    //   }
     for (const item of works) {
       if (item.id === id) {
         props.onSubmit(item)
       }
-
-
     }
 
   };
   const mapCourses = (searchWord.length ? result : works).map((item) => (
     <li key={item.id} onClick={handleClick(item.id)} >
       <div>
-        {item.text || item.description}
+        {item.text}
       </div>
     </li>
   ));

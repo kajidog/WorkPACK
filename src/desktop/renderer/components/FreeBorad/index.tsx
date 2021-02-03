@@ -20,8 +20,8 @@ const changePage= (index:number) => () => {
 }   
     const changePageIndexDom =  (
     <ChangeToggle>
-        <div>page{page+1}</div>
-        <div><button onClick={changePage(page-1)} >back</button><button onClick={changePage(page+1)} >next</button></div>
+            <div>ページ{page + 1}</div>
+            <div><button onClick={changePage(page - 1)} >前へ</button><button onClick={changePage(page + 1)} >次へ</button></div>
         
         
     </ChangeToggle>
@@ -42,12 +42,17 @@ const ChangeToggle = styled.div`
         padding: 0;
 
         &>div{
+            font-size: .9rem;
             padding: 0;
             flex: 1 1 auto;
             ${flexCenter}
             width: 100%;
-
+            &:first-child{
+                cursor: default;
+                padding: .5rem 0;
+            }
             &>button{
+                transition: .2s;
                 cursor: pointer;
                 height: 100%;
                 width: 100%;
@@ -56,8 +61,11 @@ const ChangeToggle = styled.div`
                 outline: none;
                 background-color: inherit;
                 color: inherit;
+                font-size: .65rem;
+                padding: .5rem 0;
+
                 &:first-child{
-                border-radius: 0 0 0 1rem;
+                border-radius: 0 0 0 .8rem;
                 border-right: 1px solid;
                 }
                 &:last-child{
@@ -73,7 +81,6 @@ const ChangeToggle = styled.div`
         ${flexCenter}
         flex-direction: column;
         margin: .3rem 0;
-        font-size: .7rem;
         background-color: #221;
         color: #ffd3b6; 
         transition: .4s;
@@ -83,7 +90,6 @@ const ChangeToggle = styled.div`
         border: 2px solid #00000000;
         box-shadow: 5px 5px 10px #00000055;
         width: 7rem;
-        height: 4rem;
         cursor: pointer;
 `
 const Style = styled.div`

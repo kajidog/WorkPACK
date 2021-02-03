@@ -77,9 +77,12 @@ position: fixed;
   flex-direction: column;
   &>.task{
     transform: translateX(${props.toggle ? "0" : "6.5rem"});
+    ${!props.toggle && css`pointer-events: none;`}
   }
   &>.free{
     transform: translateX(${!props.toggle ? "0" : "6.5rem"});
+    ${props.toggle && css`pointer-events: none;`}
+
   }
   &>button{
         ${flexCenter}
@@ -88,10 +91,9 @@ position: fixed;
         background-color: #ffd3b6;
         color: #221; 
         transition: .4s;
-        border: none;
         border-radius: 1rem 0 0 1rem;
         outline: none;
-        border: 2px solid #00000000;
+        border: 1px solid #00000000;
         box-shadow: 5px 5px 10px #00000055;
         padding: 1.2rem;
         width: 7rem;
@@ -104,7 +106,6 @@ position: fixed;
         }
         :focus{
             filter: brightness(110%);
-            border: 2px solid;
         }
   }
 }

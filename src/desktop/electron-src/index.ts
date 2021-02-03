@@ -144,7 +144,7 @@ ipcMain.on("upload_file", async (event, args) => {
 // 課題の取得
 ipcMain.on("get_works", async (event, args) => {
   const auth = await getAuth()
-  getWorks(args[0], auth).then((res) => {
+  getWorks(args[0], auth, args[1]).then((res) => {
     if (res) {
       event.sender.send('get_works_' + args[0], res);
     } else {

@@ -5,10 +5,10 @@ import WorkDom from "../CourseWork";
 export const getWorks = (
   setLoad: (state: boolean) => void,
   courseId: string,
-  auth: any
+  pageToken?: string
 ) => {
   setLoad(true);
-  ipcRenderer.send("get_works", [courseId, auth]);
+  ipcRenderer.send("get_works", [courseId, pageToken]);
 };
 
 export const mapWorks = (works: Work[], courseId: string) =>

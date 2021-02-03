@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { flexCenter } from '../../../../styles'
 export const mainStyle = styled.div`
     position: fixed;
-    top: 125px;
+    top: 140px;
     right: 0;
     button {
         font-size: .7rem;
@@ -13,7 +13,7 @@ export const mainStyle = styled.div`
         border: none;
         border-radius: 1rem 0 0 1rem;
         outline: none;
-        border: 2px solid #00000000;
+        border: 1px solid #00000000;
         box-shadow: 5px 5px 10px #00000055;
         padding: 1.2rem;
         width: 6rem;
@@ -26,7 +26,6 @@ export const mainStyle = styled.div`
         }
         :focus{
             filter: brightness(110%);
-            border: 2px solid;
         }
     }
 `
