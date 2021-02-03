@@ -48,6 +48,7 @@ const Component: React.FC<Props> = (props) => {
       >
         <RemoveIcon fontSize="inherit" />
       </div>
+      <div className="assist" ></div>
       <div className="title" onMouseDown={stopPropagation} onDoubleClick={handleChangePrompt} >{props.title}</div>
       {prompt && <div onMouseDown={stopPropagation} ><Prompt title="タイトルを入力" value={props.title} onSubmit={submit} onClose={handleChangePrompt} /></div>}
 

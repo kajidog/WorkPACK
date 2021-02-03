@@ -1,4 +1,5 @@
 import styled from "styled-components"
+import { flexCenter } from "../../../styles"
 
 export const Style = styled.div`
     width: 100%;
@@ -8,6 +9,17 @@ export const Style = styled.div`
         overflow: scroll;
         &>*{
             flex: 0 0 auto;
+        }
+    }
+    .fa-close{
+        display: block;
+        background-color: #d9d9d9;
+        width: 100%;
+        height: 100%;
+        ${flexCenter}
+        border-radius: .1rem;
+        &:hover{
+
         }
     }
     .EasyMDEContainer{

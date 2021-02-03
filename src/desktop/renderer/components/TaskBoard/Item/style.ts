@@ -112,6 +112,14 @@ export default Item;
 
 
 export const Header = styled.div`
+    .assist{
+        position: absolute;
+        top: 0.5rem;
+        left: 4.5rem;
+        right: 1rem;
+        height: 1rem;
+
+    }
     .canvas{
         position: absolute;
         top:3rem;

@@ -48,8 +48,9 @@ const IndexPage = () => {
   return (
     <Layout>
       <Style toggle={toggle}>
-        {toggle && <FreeBorad />}
-        {!toggle && <Board />}
+        <div className="free"><FreeBorad /></div>
+        <div className="board"><Board /></div>
+
         {selectButton}
       </Style>
     </Layout>
@@ -64,11 +65,20 @@ position: fixed;
   width: 100vw;
   height:100vh;
   overflow:scroll;
+  overflow-x: hidden;
 .free_wrap{
   position: fixed;
   top: 0;
   left: 0;
 }
+&>.free{
+  ${!props.toggle && css`transform: translateX(100vw)`}
+
+}
+&>.board{
+  ${props.toggle && css`transform: translateX(100vw)`}
+}
+
 .select_group{
   position: fixed;
   bottom: 1rem;
