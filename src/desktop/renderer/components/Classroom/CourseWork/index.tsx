@@ -17,9 +17,9 @@ const Component: React.FC<Props> = (props) => {
     setToggle(!toggle);
   };
 
-  const TaskBoard = (
+  const TaskBoard = toggle && (
     <div className="task_wrap">
-      {toggle && <Task work={work} onClose={hadleClick} />}
+      <Task work={work} onClose={hadleClick} />
     </div>
   );
   return (
@@ -31,7 +31,8 @@ const Component: React.FC<Props> = (props) => {
         </div>
         <p className="work_limit">期限：{getTime(work)}</p>
       </div>
-      {TaskBoard}
+        {TaskBoard}
+
     </Style>
   );
 };

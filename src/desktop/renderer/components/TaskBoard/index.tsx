@@ -146,6 +146,7 @@ ${props => css`
     background-color: #fff;
     top: 0;
     left: 0;
+    bottom:0;
     padding-top: 3.8rem;
     overflow: scroll;
     height: 100vh;

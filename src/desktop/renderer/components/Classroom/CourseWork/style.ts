@@ -29,6 +29,12 @@ const Style = styled.div`
   }
 
   .task_wrap {
+    position: fixed;
+    top:0;
+    left:0;
+    height:100vh;
+    width:100vw;
+    z-index:10;
   }
 
   .select_file{
@@ -42,16 +48,16 @@ const Style = styled.div`
 
   .work_limit {
       filter: contrast(120%);
-    padding: 0.5rem;
-    font-weight: bolder;
-    margin-bottom: auto;
-    position: absolute;
-    bottom: 0rem;
-    left: 0rem;
-    background: linear-gradient(#ffffff44 0%, #ccccccaa 70%, #bbbbbbff 100%);
-    height: 2rem;
-    border-radius: 0 0 0.5rem 0.5rem;
-    right: 0rem;
+      padding: 0.5rem;
+      font-weight: bolder;
+      margin-bottom: auto;
+      position: absolute;
+      bottom: 0rem;
+      left: 0rem;
+      background: linear-gradient(#ffffff44 0%, #ccccccaa 70%, #bbbbbbff 100%);
+      height: 2rem;
+      border-radius: 0 0 0.5rem 0.5rem;
+      right: 0rem;
   }
 `;
 export default Style;

@@ -75,7 +75,7 @@ position: fixed;
   width: 100vw;
   height:100vh;
   transform: translateX(${props.toggle ? "0" : "100vw"});
-  overflow:scroll;
+  overflow: hidden;
 }
 &>.board{
   position: fixed;
@@ -84,7 +84,6 @@ position: fixed;
   width: 100vw;
   height:100vh;
   overflow: hidden;
-  overflow-y:scroll;
   transform: translateX(${!props.toggle ? "0" : "100vw"});
 }
 
