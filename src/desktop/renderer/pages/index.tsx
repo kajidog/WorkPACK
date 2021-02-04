@@ -2,6 +2,7 @@ import React from "react";
 import Layout from "../components/Layout";
 import Board from "../components/Classroom/CourseList";
 import clice from "../store/user";
+import taskClice from "../store/tasks";
 import electron from "electron";
 import { useDispatch } from "react-redux";
 import styled, { css } from "styled-components"
@@ -14,6 +15,9 @@ const IndexPage = () => {
 
   const handleChange = (next: boolean) => () => {
     setToggle(next)
+    if (next) {
+      dispatch(taskClice.actions.setToggle(false))
+    }
   }
 
   React.useEffect(() => {
@@ -48,9 +52,9 @@ const IndexPage = () => {
   return (
     <Layout>
       <Style toggle={toggle}>
+        {selectButton}
         <div className="free"><FreeBorad /></div>
         <div className="board"><Board /></div>
-        {selectButton}
       </Style>
     </Layout>
   );
@@ -58,6 +62,7 @@ const IndexPage = () => {
 
 const Style = styled.div<{ toggle: boolean }>`
 ${props => css`
+
 position: fixed;
   top:0;
   left:0;
@@ -93,6 +98,7 @@ position: fixed;
   right: 0;
   display:flex;
   flex-direction: column;
+  z-index: 1000;
   &>.task{
     transform: translateX(${props.toggle ? "0" : "6.5rem"});
     ${!props.toggle && css`pointer-events: none;`}

@@ -79,6 +79,7 @@ export type TasksState = {
   loading: boolean;
   error: boolean;
   errorMessage: string;
+  toggle: boolean
 };
 
 
@@ -87,6 +88,7 @@ export const initialState: TasksState = {
   loading: false,
   error: false,
   errorMessage: "",
+  toggle: false
 };
 
 const counterSlice = createSlice({
@@ -112,7 +114,11 @@ const counterSlice = createSlice({
         ...state,
         tasks: next,
       }
-    }
+    },
+    setToggle: (state, action: PayloadAction<boolean>) => ({
+      ...state,
+      toggle: action.payload
+    })
   }
 });
 

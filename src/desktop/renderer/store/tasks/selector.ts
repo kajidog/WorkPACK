@@ -13,3 +13,9 @@ export const useTask = (workId: string) => {
     }
   })
 }
+
+export const useToggle = () => {
+  return useSelector((state: { counter: TasksState }) => ({
+    googleToggle: state.counter.toggle,
+  }));
+}

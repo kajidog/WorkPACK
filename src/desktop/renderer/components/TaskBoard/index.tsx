@@ -7,6 +7,9 @@ import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace";
 import { flexCenter } from "../../styles";
 import { getTime } from "../Classroom/CourseWork/assets"
 import { ipcRenderer } from "electron";
+import { useToggle } from "../../store/tasks/selector";
+import slice from "../../store/tasks";
+import { useDispatch } from "react-redux";
 
 type Props = {
     work: Work;
@@ -16,25 +19,19 @@ type Props = {
 const Component: React.FC<Props> = (props) => {
     const ref = React.useRef<HTMLDivElement | null>(null)
     const [state, setState] = React.useState({
-        googleToggle: false,
         addToggle: false,
     })
+    const dispatch = useDispatch()
+    const { googleToggle } = useToggle()
 
     const handleChangeToggle = () => {
-        setState({ ...state, googleToggle: !state.googleToggle })
-        if (ref.current) {
-            const x = ref.current.offsetLeft
-            const y = ref.current.offsetTop
-            const height = ref.current.offsetHeight
-            const width = ref.current.offsetWidth
-            const position = { x, y, height, width }
-            ipcRenderer.send("set_classroom_work", !state.googleToggle ? position : { height, width, x: -5000, y: 50 })
-        }
+        dispatch(slice.actions.setToggle(!googleToggle))
     }
     const Page = (
         <div className="googlepage" ref={ref} >
         </div>
     )
+    
 
     React.useEffect(() => {
         const message = ipcRenderer.sendSync("create_classroom_work", props.work.alternateLink)
@@ -47,13 +44,24 @@ const Component: React.FC<Props> = (props) => {
     }, [])
     const handleAddChange = () => {
         if (!state.addToggle) {
-            state.googleToggle && handleChangeToggle()
-
+            googleToggle && handleChangeToggle()
         }
-        setState({ ...state, addToggle: !state.addToggle, googleToggle: false })
+        setState({ ...state, addToggle: !state.addToggle })
+        dispatch(slice.actions.setToggle(false))
     }
+    React.useEffect(() => {
+        if (ref.current) {
+            const x = ref.current.offsetLeft
+            const y = ref.current.offsetTop
+            const height = ref.current.offsetHeight
+            const width = ref.current.offsetWidth
+            const position = { x, y, height, width }
+            ipcRenderer.send("set_classroom_work", googleToggle ? position : { height, width, x: -5000, y: 50 })
+        }
+    }, [googleToggle])
+
     return (
-        <Style googleToggle={state.googleToggle} >
+        <Style googleToggle={googleToggle} >
             <header>
                 <button onClick={props.onClose}>
                     <KeyboardBackspaceIcon />
@@ -63,7 +71,7 @@ const Component: React.FC<Props> = (props) => {
             </header>
             <Task workId={props.work.courseWorkId} />
             <Add workId={props.work.courseWorkId} toggle={state.addToggle} onChange={handleAddChange} />
-            <div className="googlepage_button"><button onClick={handleChangeToggle} >{state.googleToggle ? "閉じる" : "提出ページ"}</button></div>
+            <div className="googlepage_button"><button onClick={handleChangeToggle} >{googleToggle ? "閉じる" : "提出ページ"}</button></div>
             {Page}
         </Style>
     );
@@ -105,7 +113,7 @@ ${props => css`
         top: 66px;
         right: 5px;
         width: 500px;
-        bottom: 5rem;
+        bottom: 6rem;
         background-color: inherit;
         transform:  translate(${props.googleToggle ? "0" : "550px"});
         box-shadow: 3px 3px 10px #00000077;
