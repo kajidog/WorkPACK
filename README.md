@@ -1,4 +1,4 @@
-# NewLoco
+# WorkPACK
 **※** ↓ Docker使わない場合 **!推奨** 
 ```bash
   cd src/desktop
