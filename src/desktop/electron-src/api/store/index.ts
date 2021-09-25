@@ -15,11 +15,13 @@ export const getToken = () => {
     return false;
   }
 };
+
 // トークン削除
 export const deleteToken = () => {
   store.delete("token");
 };
 
+// タスク取得
 export const getTasks = (workId: string) => {
   try {
     return store.get("tasks_" + workId);
@@ -28,6 +30,7 @@ export const getTasks = (workId: string) => {
   }
 }
 
+// タスク保存
 export const setTasks = (token: any, workId: string) => {
   return store.set("tasks_" + workId, token);
 };
