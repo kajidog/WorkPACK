@@ -1,19 +1,21 @@
-import { Header } from "./style";
+// タスクのヘッダ
+import React from "react"
 import CloseIcon from "@material-ui/icons/Close";
 import RemoveIcon from "@material-ui/icons/Remove";
+import { Header } from "./style";
 import { stopPropagation } from "../../../utils";
-import React from "react"
 import Prompt from "../NewTask/SelectWindow/prompt"
 
 
-export type HeaderButton = "close" | "up" | "hide";
+export type HeaderButton = "close" | "up" | "hide"; // ヘッダのボタンの種類
 export type Props = {
   title?: string;
   buttonClicked?: (type: HeaderButton) => void;
   changeTitle: (nextTitle: string) => void
 };
+
 const Component: React.FC<Props> = (props) => {
-  const [prompt, setPrompt] = React.useState(false)
+  const [prompt, setPrompt] = React.useState(false);
 
   const handleClick = (type: HeaderButton) => (
     e: React.MouseEvent<HTMLElement, MouseEvent>
@@ -28,6 +30,8 @@ const Component: React.FC<Props> = (props) => {
     handleChangePrompt()
     props.changeTitle(title)
   }
+
+  // プロンプトの表示の切り替え
   const handleChangePrompt = () => {
     setPrompt(!prompt)
   }

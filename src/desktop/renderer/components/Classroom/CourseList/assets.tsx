@@ -2,11 +2,14 @@ import { Curse } from "../../../store/classroom";
 import CourseDom from "../Course";
 import slice from "../../../store/classroom";
 import { ipcRenderer } from "electron";
+
+// コースをリストで表示 
 export const mapCourses = (curses: Curse[]) =>
   curses.map((course) => (
     <CourseDom key={course.id} courseId={course.id} course={course} />
   ));
 
+// コース情報を取得
 export const getCourses = (dispatch: any, auth: any) => {
   dispatch(
     slice.actions.setLoading({

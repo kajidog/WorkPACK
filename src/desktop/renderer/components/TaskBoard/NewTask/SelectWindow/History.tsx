@@ -1,4 +1,4 @@
-import { Histry } from "./style";
+import { History } from "./style";
 import React from "react";
 import UndoRoundedIcon from "@material-ui/icons/UndoRounded";
 export type active = {
@@ -11,19 +11,20 @@ export type Props = {
   active: active;
 };
 
+// やり直しボタン
 const Component: React.FC<Props> = (props) => {
   const { onUndo, active } = props;
-
 
   const handleUndoClick = () => {
     onUndo && onUndo();
   };
+
   return (
-    <Histry>
+    <History>
       <button onClick={handleUndoClick} className="undo" disabled={active.undo}>
         <UndoRoundedIcon fontSize="inherit" />
       </button>
-    </Histry>
+    </History>
   );
 };
 

@@ -7,7 +7,7 @@ import { Announce } from "../../../../store/classroom";
 export type Props = {
   onSubmit: (announce: Announce) => void;
   courseId: string
-  isAnnunce: boolean
+  isAnnounce: boolean
 };
 
 const filerWord = (target: any[], word: string) => {

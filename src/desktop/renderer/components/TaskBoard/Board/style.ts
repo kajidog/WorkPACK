@@ -1,14 +1,15 @@
+// タスクボード
 import { WIDTH as ITEM_WIDTH, HEIGHT as ITEM_HEIGHT } from "../Item/style"
 
 import styled, { css } from 'styled-components'
 
 // ボードスタイルの引数
-type BordProps = {
+type BoardProps = {
   width: number;
   height: number;
   resize?: "full" | "right" | "bottom" | "left" | "top";
 }
-const getPointer = (props: BordProps) => {
+const getPointer = (props: BoardProps) => {
   switch (props.resize) {
     case "full":
       return "nwse-resize"
@@ -23,12 +24,12 @@ const getPointer = (props: BordProps) => {
   }
 }
 // ボードStyled
-export const Board = styled.div<BordProps>`
+export const Board = styled.div<BoardProps>`
 ${props => css`
     background-color: #444;
     position: relative;
     width: ${props.width * ITEM_WIDTH}px;
     height: ${props.height * ITEM_HEIGHT}px;
-  ${props.resize && css`cursor: ${getPointer(props)};` }
+  ${props.resize && css`cursor: ${getPointer(props)};`}
 `}
 `

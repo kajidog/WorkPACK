@@ -1,7 +1,9 @@
+// マス目の表示
 import React from "react";
 import styled, { css } from "styled-components";
 import { Position } from "../../../store/tasks";
 import { HEIGHT, WIDTH } from "../Item/style";
+
 export type Props = {
   position: Position;
   focus?: "true" | "false";
@@ -10,12 +12,17 @@ export type Props = {
 };
 
 const Component: React.FC<Props> = (props) => {
+
+  // ホバーイベント
   const Hover = () => {
     props.onMouseOver && props.onMouseOver(props.position);
   };
+
+  // クリックを離した時のイベント
   const End = () => {
     props.onMouseUp && props.onMouseUp(props.position);
   };
+
   return (
     <ItemStyle
       x={props.position.x}
@@ -45,7 +52,7 @@ const ItemStyle = styled.div<Position & Pick<Props, "focus">>`
     `}
     &:hover {
       ${props.focus === "true" &&
-css`
+    css`
       `}
     }
   `}

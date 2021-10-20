@@ -1,10 +1,12 @@
+// ログイン
 import React from "react";
-import Style from "./style";
 import electron from "electron";
 import { useRouter } from "next/router";
-import { useUserState } from "../../store/user/selector";
-import userSlice, { userInfo } from "../../store/user";
 import { useDispatch } from "react-redux";
+import { useUserState } from "../../store/user/selector";
+import Style from "./style";
+import userSlice, { userInfo } from "../../store/user";
+
 export type Props = {};
 
 const Component: React.FC<Props> = () => {
@@ -14,13 +16,16 @@ const Component: React.FC<Props> = () => {
   const router = useRouter(); // ルーター
   const { user, loading, login } = useUserState();
   const dispatch = useDispatch();
+
   // ログインチェック
   const onClickWithIpcSync = () => {
     dispatch(userSlice.actions.setLoading({ loading: true }));
+
     const ipcRenderer = electron ? electron.ipcRenderer || false : false;
     if (!ipcRenderer) {
       return;
     }
+
     const message = ipcRenderer.sendSync("check-login");
     switch (typeof message) {
       case "string":
@@ -29,6 +34,7 @@ const Component: React.FC<Props> = () => {
       case "undefined":
         alert("応答がありません");
         break;
+      // ユーザー情報登録
       default:
         if (message.userInfo) {
           let next: userInfo = { name: "", email: "", picture: "" };

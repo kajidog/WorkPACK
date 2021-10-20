@@ -1,4 +1,12 @@
 import React from "react";
+import ImageIcon from '@material-ui/icons/WallpaperOutlined';
+import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
+import NoteIcon from '@material-ui/icons/ImportContactsOutlined';
+import LinkIcon from '@material-ui/icons/Link';
+import InfoIcon from '@material-ui/icons/InfoOutlined';
+import WorkOutlineIcon from '@material-ui/icons/WorkOutline';
+import { useDispatch } from "react-redux";
+
 import styled from "./style";
 import History from "./History";
 import SizeSelect, { AddSize, getSize } from "./SizeSelect";
@@ -7,20 +15,13 @@ import counterSlice, { Task } from "../../../../store/tasks";
 import { useTask } from "../../../../store/tasks/selector";
 import SelectCourse from "../SelectCourse";
 import SelectWork from "../SelectWork";
-import { useDispatch } from "react-redux";
 import { Announce, courseWorkMaterial } from "../../../../store/classroom";
 import SelectClassMaterial from "../SelectClassMaterial"
 import Prompt from "./prompt"
-import ImageIcon from '@material-ui/icons/WallpaperOutlined';
-import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
-import NoteIcon from '@material-ui/icons/ImportContactsOutlined';
-import LinkIcon from '@material-ui/icons/Link';
-import InfoIcon from '@material-ui/icons/InfoOutlined';
-import WorkOutlineIcon from '@material-ui/icons/WorkOutline';
 
 export type Props = {
-  onClose: (type: string) => void;
-  workId: string
+  onClose: (type: string) => void;  // 閉じる時に実行
+  workId: string  // 課題ID
 };
 
 type State = {
@@ -31,6 +32,7 @@ type State = {
   isAnnounce: boolean,
 };
 
+// 一番大きいID+1を取得
 const getId = (tasks: Task[]) => {
   let maxId = 0
   tasks.forEach((task) => {
@@ -41,29 +43,29 @@ const getId = (tasks: Task[]) => {
 
 const Component: React.FC<Props> = (props) => {
   const dispatch = useDispatch();
-  const { tasks } = useTask(props.workId)
-  const [prompt, setPrompt] = React.useState(false)
+  const { tasks } = useTask(props.workId) // タスク取得
+  const [prompt, setPrompt] = React.useState(false) //  プロンプトを表示するかのフラグ
 
   const [state, setState] = React.useState<State>({
     menus: [{
       batch: <InfoIcon />,
       title: "アナウンス"
     }, {
-        batch: <WorkOutlineIcon />,
+      batch: <WorkOutlineIcon />,
       title: "授業資料"
-      }, {
-        batch: <NoteIcon />,
-        title: "メモ"
-      }, {
-        batch: <LinkIcon />,
-        title: "URL"
-      }, {
-        batch: <div></div>,
-        title: "画像"
-      }, {
-        batch: <FormatListBulletedIcon />,
-        title: "ToDo"
-      }
+    }, {
+      batch: <NoteIcon />,
+      title: "メモ"
+    }, {
+      batch: <LinkIcon />,
+      title: "URL"
+    }, {
+      batch: <div></div>,
+      title: "画像"
+    }, {
+      batch: <FormatListBulletedIcon />,
+      title: "ToDo"
+    }
     ],
     size: "3:4",
     display: "window",
@@ -71,14 +73,17 @@ const Component: React.FC<Props> = (props) => {
     isAnnounce: true
   });
 
+  // 閉じるボタンクリック
   const doClose = () => {
     props.onClose("toggle");
   };
 
+  // 追加するサイズの変更
   const handleSizeChange = (size: AddSize) => {
     setState({ ...state, size });
   };
 
+  // 表示するコンテンツ変更
   const handleChangeWindow = (
     display: "corse" | "window" | "courses" | "material",
     courseId: string = state.courseId,
@@ -87,16 +92,17 @@ const Component: React.FC<Props> = (props) => {
     setState({ ...state, display, courseId, isAnnounce: type });
   };
 
+  // タスク追加か画面遷移
   const addTask = (id: string) => async () => {
     switch (id) {
       case "アナウンス":
-        handleChangeWindow("courses", state.courseId, true);
+        handleChangeWindow("courses", state.courseId, true);// 画面遷移
         break;
       case "授業資料":
-        handleChangeWindow("courses", state.courseId, false);
+        handleChangeWindow("courses", state.courseId, false);// 画面遷移
         break;
       case "URL":
-        handleChangePrompt()
+        handleChangePrompt() // プロンプトを表示
         break;
       case "画像":
         break;
@@ -147,6 +153,7 @@ const Component: React.FC<Props> = (props) => {
     }
   };
 
+  // 前の画面に戻る
   const changeHistory = () => {
     switch (state.display) {
       case "courses":
@@ -166,6 +173,7 @@ const Component: React.FC<Props> = (props) => {
     doClose();
   }
 
+  // アナウンスのタスクを追加
   const addAnnounce = (announce: Announce) => {
     dispatch(
       counterSlice.actions.addTask({
@@ -189,6 +197,7 @@ const Component: React.FC<Props> = (props) => {
     doClose();
   }
 
+  // 課題資料のタスク追加
   const addCourseWorkMaterial = (material: courseWorkMaterial) => {
     dispatch(
       counterSlice.actions.addTask({
@@ -211,14 +220,20 @@ const Component: React.FC<Props> = (props) => {
     )
     doClose();
   }
+
+  // 画像選択
   const handleChangeFile = async (e: any) => {
+
+    // 画像が選ばれていなかった場合
     if (e.target.value.length === 0 || e.target.files.length === 0) {
       return
     }
 
     const { files } = e.target;
     if (files) {
+      // blob化
       toBlob(files[0], (blob) => {
+        // 画像のタスク追加
         dispatch(
           counterSlice.actions.addTask({
             workId: props.workId,
@@ -239,10 +254,10 @@ const Component: React.FC<Props> = (props) => {
         )
         doClose();
       })
-
-
     }
   }
+
+  // 画像選択コンポーネント
   const selectImg = (
     <label className="select_img" htmlFor="select_img">
       {<ImageIcon />}
@@ -253,21 +268,22 @@ const Component: React.FC<Props> = (props) => {
         onChange={handleChangeFile}
       />
       <span>画像</span>
-
     </label>
   )
 
-  const mapMenue = state.menus.map((menue) => (
-    <li key={"menue_" + menue} onClick={addTask(menue.title)}>
-      {menue.title === "画像" && selectImg}
-      {menue.title !== "画像" && <div>{menue.batch}<span>{menue.title}</span></div>}
+  // メニューリスト
+  const mapMenu = state.menus.map((menu) => (
+    <li key={"menu_" + menu} onClick={addTask(menu.title)}>
+      {menu.title === "画像" && selectImg}
+      {menu.title !== "画像" && <div>{menu.batch}<span>{menu.title}</span></div>}
     </li>
   ));
 
+  // 表示する画面
   const displayWindow = () => {
     switch (state.display) {
       case "window":
-        return <ul>{mapMenue}</ul>;
+        return <ul>{mapMenu}</ul>;
       case "courses":
         return <SelectCourse onChange={(courseId) => {
           handleChangeWindow("corse", courseId)
@@ -277,13 +293,15 @@ const Component: React.FC<Props> = (props) => {
           }} />;
       case "corse":
         if (state.isAnnounce) {
-          return <SelectWork isAnnunce={state.isAnnounce} courseId={state.courseId} onSubmit={addAnnounce} />
+          return <SelectWork isAnnounce={state.isAnnounce} courseId={state.courseId} onSubmit={addAnnounce} />
         }
-        return <SelectClassMaterial courseId={state.courseId} onSubmit={addCourseWorkMaterial} />  
+        return <SelectClassMaterial courseId={state.courseId} onSubmit={addCourseWorkMaterial} />
       default:
-        return <ul>{mapMenue}</ul>;
+        return <ul>{mapMenu}</ul>;
     }
   };
+
+  // iframe入力
   const addIframe = (url: string) => {
     dispatch(
       counterSlice.actions.addTask({
@@ -306,9 +324,11 @@ const Component: React.FC<Props> = (props) => {
     doClose();
   }
 
+  // 文字入力フォームの表示を切り替え
   const handleChangePrompt = () => {
     setPrompt(!prompt)
   }
+
   return (
     <div {...props} onClick={doClose}>
       <div onClick={stopPropagation}>
@@ -319,7 +339,6 @@ const Component: React.FC<Props> = (props) => {
           <SizeSelect select={state.size} onChange={handleSizeChange} />
         </div>
         {prompt && <Prompt title="URLを入力してください" onSubmit={addIframe} onClose={handleChangePrompt} />}
-
       </div>
     </div>
   );

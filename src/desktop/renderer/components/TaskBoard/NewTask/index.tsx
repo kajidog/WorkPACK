@@ -9,6 +9,7 @@ export type Props = {
 };
 
 const Component: React.FC<Props> = (props) => {
+
   const handleClick = () => {
     props.onChange(!props.toggle)
   }

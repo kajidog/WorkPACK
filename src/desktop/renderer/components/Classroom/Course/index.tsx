@@ -1,7 +1,8 @@
+import React from "react"
+
 import Style from "./style";
 import { Curse } from "../../../store/classroom";
 import CourseWorkList from "../CourseWorkList";
-import React from "react"
 export type Props = {
   course: Curse;
   courseId: string;
@@ -9,6 +10,7 @@ export type Props = {
 
 const Component: React.FC<Props> = (props) => {
   const [toggle, setToggle] = React.useState(true)
+
   const handleChange = (next: boolean) => {
     setToggle(next)
   }

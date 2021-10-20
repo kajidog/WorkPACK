@@ -1,38 +1,42 @@
+// 自由なタスクボード
 import React from "react";
 import styled, { } from "styled-components"
 import { flexCenter } from "../../styles";
-import Bord from "../TaskBoard/Board"
+import Board from "../TaskBoard/Board"
 import Add from "../TaskBoard/NewTask"
 
 const MAX_PAGE = 5
 
 const Component = () => {
-  const [add, setAdd] = React.useState(false);
-  const [page, setPage] = React.useState(0);
-const changePage= (index:number) => () => {
-    if(index === -1){
-        return
+    const [add, setAdd] = React.useState(false);
+    const [page, setPage] = React.useState(0);
+
+    // ページ切り替え処理
+    const changePage = (index: number) => () => {
+        if (index === -1) {
+            return
+        }
+        if (index === MAX_PAGE) {
+            return
+        }
+        setPage(index % MAX_PAGE)
     }
-    if(index === MAX_PAGE){
-        return
-    }
-    setPage(index % MAX_PAGE)
-}   
-    const changePageIndexDom =  (
-    <ChangeToggle>
+
+    // ページ切り替えボタン
+    const changePageIndexDom = (
+        <ChangeToggle>
             <div>ページ{page + 1}</div>
             <div><button onClick={changePage(page - 1)} >前へ</button><button onClick={changePage(page + 1)} >次へ</button></div>
-        
-        
-    </ChangeToggle>
+        </ChangeToggle>
     )
-  return (
-    <Style >
-      <Bord workId={"me"+ page }/>
-      <Add workId={"me" + page} toggle={add} onChange={setAdd} />
-      {changePageIndexDom}
-    </Style>
-  );
+
+    return (
+        <Style >
+            <Board workId={"me" + page} />
+            <Add workId={"me" + page} toggle={add} onChange={setAdd} />
+            {changePageIndexDom}
+        </Style>
+    );
 };
 
 const ChangeToggle = styled.div`

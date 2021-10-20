@@ -115,7 +115,7 @@ li{
 export default mainStyle
 
 
-export const Histry = styled.div`
+export const History = styled.div`
     display: flex;
     button{
         width: 2rem;

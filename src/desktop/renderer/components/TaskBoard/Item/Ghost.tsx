@@ -1,3 +1,4 @@
+// 薄っすらとしたカード
 import React from "react";
 import { Size, Position } from "../../../store/tasks";
 import { GhostStyle } from "./style";

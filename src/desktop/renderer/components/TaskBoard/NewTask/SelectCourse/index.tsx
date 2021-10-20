@@ -1,3 +1,4 @@
+// コース選択画面
 import Style from "./style";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import { useCourses } from "../../../../store/classroom/selector";
@@ -8,6 +9,8 @@ export type Props = {
 
 const Component: React.FC<Props> = (props) => {
   const { courses } = useCourses();
+
+  // コースをクリック
   const handleClick = (id: string, add?: boolean) => (e: React.MouseEvent) => {
     e.stopPropagation();
     if (id === "me" || add) {
@@ -16,6 +19,8 @@ const Component: React.FC<Props> = (props) => {
     }
     props.onChange(id);
   };
+
+  // コースをリストで表示
   const mapCourses = courses.map((item) => (
     <li key={item.id} onClick={handleClick(item.id)} >
       <div>

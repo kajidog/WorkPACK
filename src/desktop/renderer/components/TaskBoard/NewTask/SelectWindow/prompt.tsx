@@ -1,17 +1,20 @@
-import React from "react"
-import styled from "styled-components"
-import { flexCenter } from "../../../../styles"
-import { stopPropagation } from "../../../../utils"
+import React from "react";
+import styled from "styled-components";
+import { flexCenter } from "../../../../styles";
+import { stopPropagation } from "../../../../utils";
 
 type Props = {
-    onSubmit: (wrod: string) => void
-    onClose: () => void
-    title: string
-    value?: string
+    onSubmit: (word: string) => void;    // サブミット
+    onClose: () => void; // 画面外をクリック
+    title: string;   // タイトル
+    value?: string;  // 初期値
 }
 
+// prompt
 const Component: React.FC<Props> = (props) => {
-    const [word, setWord] = React.useState(props.value || "")
+    const [word, setWord] = React.useState(props.value || "");
+
+    // サブミットイベント
     const handleSubmit = (e: any) => {
         e.preventDefault();
         if (!word.length) {
@@ -19,15 +22,18 @@ const Component: React.FC<Props> = (props) => {
         }
         props.onSubmit(word)
     }
+
+    // 文字チェンジ
     const handleChange = (e: any) => {
         setWord(e.target.value)
     }
+
     return <Style onClick={props.onClose}>
         <div onClick={stopPropagation} >
             <form onSubmit={handleSubmit} >
                 <p>{props.title}</p>
-                <div>               
-                     <input autoFocus type="text" value={word} onChange={handleChange} />
+                <div>
+                    <input autoFocus type="text" value={word} onChange={handleChange} />
                     <button type="submit">OK</button>
                 </div>
             </form>

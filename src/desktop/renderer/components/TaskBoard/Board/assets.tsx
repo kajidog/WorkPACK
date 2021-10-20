@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { Task, Position, Size } from '../../../store/tasks'
 import Item, { Props } from '../Item'
 import MathComponent, { Props as MathProps1 } from '../Math'
@@ -12,11 +13,14 @@ import { ResizeTarget } from '.'
 import { HEIGHT, WIDTH } from '../Item/style'
 import { getHTML } from '../../../utils'
 
+// タスクカードの中身表示
 export const mapInfo = (
   information: Task[],
   itemProps: Omit<Props, 'key' | 'id' | 'position' | 'size' | 'options'>,
   onChange: (task: Task[]) => void,
 ) => {
+
+  // 戻り値が文字のイベント
   const changeMemo = (id: number) => (word: string) => {
     const next: Task[] = []
     information.forEach((item) => {
@@ -37,20 +41,22 @@ export const mapInfo = (
     onChange(next)
   }
 
+  // 戻り値が画像のイベント
   const changeImg = (id: number) => (img: any) => {
     const next: Task[] = []
     information.forEach((item) => {
       if (item.id === id) {
         switch (item.props.type) {
 
-    case "img":
+          case "img":
             next.push({ ...item, props: { ...item.props, img } })
-    }
-  } else next.push(item)
-})
-onChange(next)
-}
+        }
+      } else next.push(item)
+    })
+    onChange(next)
+  }
 
+  // todoのイベント
   const changeTodo = (id: number) => (todo: todo) => {
     const next: Task[] = []
     information.forEach((item) => {
@@ -60,6 +66,7 @@ onChange(next)
     })
     onChange(next)
   }
+
 
   return information.map((info) => {
     const Child = () => {
@@ -73,8 +80,8 @@ onChange(next)
           return <Announce onChange={changeMemo(info.id)} html={info.props.html} announce={info.props.announce} />
         case 'workMaterial':
           return <WorkMaterial onChange={changeMemo(info.id)} html={info.props.html} material={info.props.material} />
-          case 'iframe':
-            return <Iframe url={info.props.url} />
+        case 'iframe':
+          return <Iframe url={info.props.url} />
         case 'markdown':
           return null
         case 'todo':
@@ -98,6 +105,7 @@ onChange(next)
   })
 }
 
+// タスクカードの情報を変更
 export const setInfoData = (
   target: ResizeTarget,
   position: Position,
@@ -128,6 +136,8 @@ export const setInfoData = (
 }
 
 export type MathProps = Omit<MathProps1, 'position'> & { size: Size }
+
+// マス目を生成
 export const MathP = (props: MathProps) =>
   Array(props.size.height)
     .fill(0)
@@ -143,7 +153,8 @@ export const MathP = (props: MathProps) =>
         )),
     )
 
-export const getBordWidth = (info: Task[], width: number, height: number) => {
+// ボードの幅を取得
+export const getBoardWidth = (info: Task[], width: number, height: number) => {
   let size = {
     width: 0,
     height: 0,
@@ -163,6 +174,7 @@ export const getBordWidth = (info: Task[], width: number, height: number) => {
   return size
 }
 
+// ポジション変更
 export const getItemPosition = (id: number, info: Task[]) => {
   for (let item of info) {
     if (item.id === id) {
@@ -172,6 +184,7 @@ export const getItemPosition = (id: number, info: Task[]) => {
   return -1
 }
 
+// サイズ変更
 export const setInfoSize = (id: number, size: Size, info: Task[]) => {
   let nextInfo: Task[] = []
   let last: Task | undefined
@@ -184,12 +197,14 @@ export const setInfoSize = (id: number, size: Size, info: Task[]) => {
   return nextInfo
 }
 
+// カード削除
 export const deleteInfo = (id: number, info: Task[]) => {
   const next: Task[] = []
   info.forEach((item) => item.id !== id && next.push(item))
   return next
 }
 
+// カードの表示切り替え
 export const changeToggleInfo = (
   id: number,
   info: Task[],
@@ -209,6 +224,7 @@ export const changeToggleInfo = (
   return nextInfo
 }
 
+// カードのサイズを取得
 export const getCardSize = (
   nextPosition: Position,
   target: ResizeTarget,
@@ -229,14 +245,16 @@ export const getCardSize = (
   return { width, height }
 }
 
-export const getCardPosition = (next: Position, target: ResizeTarget & { orgin: Position }) => {
-  let x = target.orgin.x + (next.x - target.position.x)
-  let y = target.orgin.y + (next.y - target.position.y)
+// タスクカードの位置を取得
+export const getCardPosition = (next: Position, target: ResizeTarget & { origin: Position }) => {
+  let x = target.origin.x + (next.x - target.position.x)
+  let y = target.origin.y + (next.y - target.position.y)
   x < 0 && (x = 0)
   y < 0 && (y = 0)
   return { x, y }
 }
 
+// タイトル変更
 export const changeTitle = (id: number, title: string, tasks: Task[]) => {
   const next: Task[] = []
   tasks.forEach(task => {

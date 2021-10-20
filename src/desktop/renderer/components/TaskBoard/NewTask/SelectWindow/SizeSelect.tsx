@@ -2,8 +2,11 @@ import { SizeSelect } from "./style";
 import React from "react";
 import { Size } from "../../../../store/tasks";
 
+
 export type AddSize = "6:3" | "3:4" | "5:7";
+
 const Sizes: AddSize[] = ["3:4", "5:7", "6:3"];
+
 export const getSize = (size: AddSize): Size => {
   switch (size) {
     case "5:7":
@@ -16,11 +19,13 @@ export const getSize = (size: AddSize): Size => {
       return { width: 2, height: 2 };
   }
 };
+
 export type Props = {
-  onChange?: (nextSize: AddSize) => void;
-  select: AddSize;
+  onChange?: (nextSize: AddSize) => void; // 変更イベント
+  select: AddSize;  // 選択中の値
 };
 
+// リサイズボタン
 const Component: React.FC<Props> = (props) => {
   const { onChange, select } = props;
 
@@ -28,6 +33,7 @@ const Component: React.FC<Props> = (props) => {
     onChange && onChange(type);
   };
 
+  // ボタンを並べて表示
   const mapSizes = Sizes.map((size_name) => (
     <button
       key={"size_" + size_name}
@@ -37,6 +43,7 @@ const Component: React.FC<Props> = (props) => {
       {size_name}
     </button>
   ));
+
   return (
     <SizeSelect>
       <p>追加されるアイテムのサイズ</p>

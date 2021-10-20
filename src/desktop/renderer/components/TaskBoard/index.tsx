@@ -1,15 +1,19 @@
+// タスクボード
+
 import React from "react";
+import { useDispatch } from "react-redux";
+import { ipcRenderer } from "electron";
+import styled, { css } from "styled-components";
+import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace";
+
 import { Work } from "../../store/classroom";
 import Task from "./Board";
 import Add from "./NewTask";
-import styled, { css } from "styled-components";
-import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace";
 import { flexCenter } from "../../styles";
 import { getTime } from "../Classroom/CourseWork/assets"
-import { ipcRenderer } from "electron";
 import { useToggle } from "../../store/tasks/selector";
 import slice from "../../store/tasks";
-import { useDispatch } from "react-redux";
+
 
 type Props = {
     work: Work;
@@ -17,22 +21,26 @@ type Props = {
 };
 
 const Component: React.FC<Props> = (props) => {
-    const ref = React.useRef<HTMLDivElement | null>(null)
-    const [state, setState] = React.useState({
-        addToggle: false,
-    })
-    const dispatch = useDispatch()
-    const { googleToggle } = useToggle()
 
+    const ref = React.useRef<HTMLDivElement | null>(null);  // 提出ページに使用
+    const [state, setState] = React.useState({
+        addToggle: false,   // タスク追加画面のトグル
+    });
+    const dispatch = useDispatch();
+    const { googleToggle } = useToggle();   // 提出ページのトグル
+
+    // // 提出ページのトグルを変更
     const handleChangeToggle = () => {
         dispatch(slice.actions.setToggle(!googleToggle))
     }
+
+    // どこに表示していいかを取得するためだけに使用
     const Page = (
         <div className="googlepage" ref={ref} >
         </div>
     )
-    
 
+    // 課題ページを読み込んでおく
     React.useEffect(() => {
         const message = ipcRenderer.sendSync("create_classroom_work", props.work.alternateLink)
         if (message) {
@@ -42,13 +50,19 @@ const Component: React.FC<Props> = (props) => {
             ipcRenderer.send("close_classroom_work", props.work.alternateLink)
         }
     }, [])
+
+    // タスク追加画面の表示切り替え
     const handleAddChange = () => {
+
+        // 開くときに提出ページが開いていたら提出ページを閉じる
         if (!state.addToggle) {
             googleToggle && handleChangeToggle()
         }
         setState({ ...state, addToggle: !state.addToggle })
         dispatch(slice.actions.setToggle(false))
     }
+
+    // 提出ページのトグルを切り替えるときに切り替えた位置を取得
     React.useEffect(() => {
         if (ref.current) {
             const x = ref.current.offsetLeft
@@ -56,6 +70,8 @@ const Component: React.FC<Props> = (props) => {
             const height = ref.current.offsetHeight
             const width = ref.current.offsetWidth
             const position = { x, y, height, width }
+
+            // 提出ページの位置を合わせる
             ipcRenderer.send("set_classroom_work", googleToggle ? position : { height, width, x: -5000, y: 50 })
         }
     }, [googleToggle])

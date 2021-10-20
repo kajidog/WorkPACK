@@ -17,8 +17,6 @@ const Component: React.FC<Props> = (props) => {
 
     const changeText = (next: string) => {
         props.onChange(next)
-        console.log(props.material.materials);
-
     }
     const mapMaterials = props.material.materials && props.material.materials.map((material) => {
         if (material.driveFile) {

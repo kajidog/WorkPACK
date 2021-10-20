@@ -2,7 +2,7 @@
 // loading画面
 
 import React from "react"
-import Coffee from "./coffe"
+import Coffee from "./coffee"
 import styled, { keyframes } from "styled-components"
 type Props = {
   load: boolean //true: ロード中
