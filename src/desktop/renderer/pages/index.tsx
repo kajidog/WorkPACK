@@ -1,47 +1,48 @@
 import React from "react";
-import Layout from "../components/Layout";
-import Board from "../components/Classroom/CourseList";
-import clice from "../store/user";
-import taskClice from "../store/tasks";
 import electron from "electron";
 import { useDispatch } from "react-redux";
 import styled, { css } from "styled-components"
+
+import Layout from "../components/Layout";
+import Board from "../components/Classroom/CourseList";
+import user from "../store/user";
+import taskSlice from "../store/tasks";
 import { flexCenter } from "../styles";
-import FreeBorad from "../components/FreeBorad"
+import FreeBoard from "../components/FreeBorad"
 
 const IndexPage = () => {
-  const [toggle, setToggle] = React.useState(false)
+  const [toggle, setToggle] = React.useState(false);  // フリーボードと課題一覧切り替えフラグ
   const dispatch = useDispatch();
 
   const handleChange = (next: boolean) => () => {
     setToggle(next)
     if (next) {
-      dispatch(taskClice.actions.setToggle(false))
+      dispatch(taskSlice.actions.setToggle(false))
     }
   }
 
   React.useEffect(() => {
+
+    // ユーザー情報取得時に実行
     function ado(_: any, msg: any) {
       if (!msg) {
         return;
       }
       if (msg.auth) {
-        dispatch(clice.actions.setAuth(msg.auth));
+        dispatch(user.actions.setAuth(msg.auth));
       }
       if (msg.user) {
-        dispatch(clice.actions.setUser(msg.user));
+        dispatch(user.actions.setUser(msg.user));
       }
     }
+    // ユーザー情報取
     electron.ipcRenderer.on("update_user", ado);
-    //const tasks = electron.ipcRenderer.sendSync("get_tasks")
-    //if (tasks) {
-    //  dispatch(taskClice.actions.setAll(tasks))
-    //}
     return () => {
       electron.ipcRenderer.removeListener("update_user", ado);
     };
   }, []);
 
+  // 切り替えボタン
   const selectButton = (
     <div className="select_group" >
       <button className="task" onClick={handleChange(false)}>未提出の課題に切り替える</button>
@@ -53,7 +54,7 @@ const IndexPage = () => {
     <Layout>
       <Style toggle={toggle}>
         {selectButton}
-        <div className="free"><FreeBorad /></div>
+        <div className="free"><FreeBoard /></div>
         <div className="board"><Board /></div>
       </Style>
     </Layout>

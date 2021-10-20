@@ -1,11 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
+// ユーザー情報
 export type userInfo = {
   name: string;
   email: string;
   picture: string;
 };
 
+// Storeの設定
 export type userState = {
   user: userInfo;
   loading?: boolean;
@@ -15,6 +17,7 @@ export type userState = {
   auth: any;
 };
 
+// 初期値
 export const initialState: userState = {
   user: {
     name: "",
@@ -29,21 +32,27 @@ export const initialState: userState = {
   auth: undefined,
 };
 
+// reducer
 const counterSlice = createSlice({
   name: "counter",
   initialState,
   reducers: {
+    // ユーザーセット
     setUser: (state, action: PayloadAction<userInfo>) => ({
       ...state,
       user: action.payload,
       login: true,
     }),
+
+    // 認証情報セット
     setAuth: (state, action: PayloadAction<any>) => {
       return {
         ...state,
         auth: action.payload,
       };
     },
+
+    // 状態セット
     setLoading: (
       state,
       action: PayloadAction<{

@@ -13,14 +13,16 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 
 import theme from "../styles/theme";
 const MyApp = ({ Component, pageProps }: AppProps) => {
+
   const [loading, setLoading] = React.useState(false)
   useEffect(() => {
-    if (!loading) setLoading(true)
+    if (!loading) setLoading(true);
     const jssStyles = document.querySelector("#jss-server-side");
     if (jssStyles && jssStyles.parentNode) {
       jssStyles.parentNode.removeChild(jssStyles);
     }
   }, []);
+
   return (
     <StylesProvider injectFirst>
       <MaterialUIThemeProvider theme={theme}>
